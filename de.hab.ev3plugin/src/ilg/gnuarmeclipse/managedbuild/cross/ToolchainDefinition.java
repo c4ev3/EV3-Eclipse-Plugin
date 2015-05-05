@@ -200,13 +200,13 @@ public class ToolchainDefinition {
 	/*	// 0
 		ms_list.add(new ToolchainDefinition(
 				"GNU Tools for ARM Embedded Processors", "arm-none-eabi-"));
-		// 1
+	*/	// 1
 		tc = new ToolchainDefinition("Sourcery CodeBench Lite for ARM EABI",
 				"arm-none-eabi-");
 		if (Utils.isPlatform("windows"))
 			tc.setWin("cs_make", "cs_rm");
 		ms_list.add(tc);
-*/
+
 		// 2
 		tc = new ToolchainDefinition(
 				"Sourcery CodeBench Lite for ARM GNU/Linux",

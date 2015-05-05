@@ -42,10 +42,30 @@
 
 	<process type="org.eclipse.cdt.managedbuilder.core.NewManagedProject">
 		<simple name="name" value="$(projectName)" /> 
-		<simple name="artifactExtension" value="elf" /> 
+		<simple name="artifactExtension" value="" /> 
 		<simple name="isCProject" value="true" /> 
 	</process>
-
+ 		<process type="org.eclipse.cdt.managedbuilder.core.AppendToMBSStringListOptionValues">
+		<simple name="projectName" value="$(projectName)" />		
+		<complex-array name="resourcePaths">
+			<element>
+				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" />
+				<simple-array name="values">
+					<element value="&quot;/usr/local/include&quot;" />
+					<element value="${ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.asm}" />
+				</simple-array>
+				<simple name="path" value="" />
+			</element>
+			<element>
+				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" />
+				<simple-array name="values">
+					<element value="&quot;/usr/local/include&quot;" />
+				</simple-array>
+				<simple name="path" value="" />
+			</element>
+		</complex-array>
+	</process>
+ 	
 	<process type="org.eclipse.cdt.core.CreateSourceFolder">
 		<simple name="projectName" value="$(projectName)"/>
 		<simple name="path" value="$(sourceDir)"/>
