@@ -55,19 +55,15 @@ public class SetCrossCommandOperation implements IRunnableWithProgress {
 				SetCrossCommandWizardPage.PAGE_ID,
 				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_PATH);
 /* EV3 SPECIFIC */		
-		String api = (String) MBSCustomPageManager.getPageProperty(
+		String uploader = (String) MBSCustomPageManager.getPageProperty(
 				SetCrossCommandWizardPage.PAGE_ID,
-				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_API);
-		String asm = (String) MBSCustomPageManager.getPageProperty(
-				SetCrossCommandWizardPage.PAGE_ID,
-				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_ASM);
+				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_UPLOADER);
 /* END EV3 SPECIFIC */
 		// store them on the permanent storage in
 		// workspace/.plugins/org.eclipse.cdt.core/shareddefaults.xml
 
 		SharedStorage.putToolchainPath(toolchainName, path);
-		SharedStorage.putToolchainApi(toolchainName, api);
-		SharedStorage.putToolchainAsm(toolchainName, asm);
+		SharedStorage.putToolchainUploader(toolchainName, uploader);
 		SharedStorage.putToolchainName(toolchainName);
 		SharedStorage.update();
 		
@@ -137,35 +133,20 @@ public class SetCrossCommandOperation implements IRunnableWithProgress {
 		ProjectStorage.putPath(config, path);
 		}
 
-		/* EV3 Specific */
+		/* EV3/uploader Specific */
 		{
 		IOption option;
 		ToolchainSettingsTab.setOptionsForToolchain(config, toolchainIndex);
 
 		String path = (String) MBSCustomPageManager.getPageProperty(
 				SetCrossCommandWizardPage.PAGE_ID,
-				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_API);
+				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_UPLOADER);
 		option = toolchain
-				.getOptionBySuperClassId(Option.OPTION_TOOLCHAIN_API); //$NON-NLS-1$
-		// Do not use config.setOption() to DO NOT save it on .cproject...
-		option.setValue(path);
-
-		// ... instead save it to the workspace project storage
-		ProjectStorage.putValue(config, "api", path);
-		}
-		{
-		IOption option;
-		ToolchainSettingsTab.setOptionsForToolchain(config, toolchainIndex);
-
-		String path = (String) MBSCustomPageManager.getPageProperty(
-				SetCrossCommandWizardPage.PAGE_ID,
-				SetCrossCommandWizardPage.CROSS_TOOLCHAIN_ASM);
-		option = toolchain
-				.getOptionBySuperClassId(Option.OPTION_TOOLCHAIN_ASM); //$NON-NLS-1$
+				.getOptionBySuperClassId(Option.OPTION_TOOLCHAIN_UPLOADER); //$NON-NLS-1$
 		// Do not use config.setOption() to DO NOT save it on .cproject...
 		option.setValue(path);
 		// ... instead save it to the workspace project storage
-		ProjectStorage.putValue(config, "asm", path);
+		ProjectStorage.putValue(config, "uploader", path);
 		}
 		
 	}

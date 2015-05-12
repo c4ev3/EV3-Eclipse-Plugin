@@ -159,10 +159,8 @@ public class Option {
 	public static final String OPTION_TOOLCHAIN_PATH = OPTION_PREFIX
 			+ ".toolchain.path";
 
-	public static final String OPTION_TOOLCHAIN_API = OPTION_PREFIX
-			+ ".toolchain.api";
-	public static final String OPTION_TOOLCHAIN_ASM = OPTION_PREFIX
-			+ ".toolchain.asm";
+	public static final String OPTION_TOOLCHAIN_UPLOADER = OPTION_PREFIX
+			+ ".toolchain.uploader";
 
 	
 	public static final String OPTION_COMMAND = OPTION_PREFIX + ".command.";

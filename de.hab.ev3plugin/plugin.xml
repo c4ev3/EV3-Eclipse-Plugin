@@ -2325,30 +2325,14 @@
             </enablement>
          </option>
          <!-- ev3 specific -->
-         <option
+          <option
                browseType="directory"
                category="ilg.gnuarmeclipse.managedbuild.cross.optionCategory.target"
-               id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.api"
+               id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.uploader"
                isAbstract="false"
-               name="%option.toolchain.api"
+               name="%option.toolchain.uploader"
                resourceFilter="all"
-               valueHandler="ilg.gnuarmeclipse.managedbuild.cross.ApiManagedOptionValueHandler"
-               valueType="string">
-            <enablement
-                  type="UI_VISIBILITY">
-               <false>
-                  false body text
-               </false>
-            </enablement>
-         </option>
-         <option
-               browseType="directory"
-               category="ilg.gnuarmeclipse.managedbuild.cross.optionCategory.target"
-               id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.asm"
-               isAbstract="false"
-               name="%option.toolchain.asm"
-               resourceFilter="all"
-               valueHandler="ilg.gnuarmeclipse.managedbuild.cross.AsmManagedOptionValueHandler"
+               valueHandler="ilg.gnuarmeclipse.managedbuild.cross.UploaderManagedOptionValueHandler"
                valueType="string">
             <enablement
                   type="UI_VISIBILITY">
@@ -4101,6 +4085,16 @@
             parent="org.eclipse.cdt.managedbuilder.ui.properties.Page_BuildSettings"
             weight="012">
       </tab>
+   </extension>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+         <content-type
+               base-type="org.eclipse.cdt.core.cSource"
+               file-extensions="lms,lmsasm"
+               id="de.hab.ev3plugin.lms.contenttype"
+               name="lms2012 Assembly File"
+               priority="high">
+		</content-type>
    </extension>
            
 </plugin>

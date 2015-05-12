@@ -24,8 +24,7 @@ public class Messages extends NLS {
 	public static String SetCrossCommandWizardPage_path;
 	public static String SetCrossCommandWizardPage_prefix;
 
-	public static String SetCrossCommandWizardPage_api;
-	public static String SetCrossCommandWizardPage_asm;
+	public static String SetCrossCommandWizardPage_uploader;
 	
 	public static String SetCrossCommandWizardPage_title;
 
@@ -42,8 +41,7 @@ public class Messages extends NLS {
 	public static String ToolChainSettingsTab_makeCmd;
 	public static String ToolChainSettingsTab_rmCmd;
 	public static String ToolChainSettingsTab_path;
-	public static String ToolChainSettingsTab_asm;
-	public static String ToolChainSettingsTab_api;
+	public static String ToolChainSettingsTab_uploader;
 	public static String ToolChainSettingsTab_browse;
 	public static String ToolChainSettingsTab_flash;
 	public static String ToolChainSettingsTab_listing;

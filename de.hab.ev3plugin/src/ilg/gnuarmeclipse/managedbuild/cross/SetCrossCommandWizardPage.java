@@ -46,8 +46,7 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 	private Composite m_composite;
 	private boolean m_finish = false;
 	private Text m_pathTxt;
-	private Text m_apiTxt;
-	private Text m_asmTxt;
+	private Text m_uploaderTxt;
 	private Combo m_toolchainCombo;
 	private int m_selectedToolchainIndex;
 	private String m_selectedToolchainName;
@@ -60,8 +59,7 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 
 	public static final String CROSS_TOOLCHAIN_NAME = "toolchain.name"; //$NON-NLS-1$
 	public static final String CROSS_TOOLCHAIN_PATH = "toolchain.path"; //$NON-NLS-1$ 
-	public static final String CROSS_TOOLCHAIN_API = "toolchain.api"; //$NON-NLS-1$ 
-	public static final String CROSS_TOOLCHAIN_ASM = "toolchain.asm"; //$NON-NLS-1$ 
+	public static final String CROSS_TOOLCHAIN_UPLOADER = "toolchain.uploader"; //$NON-NLS-1$ 
 
 	public SetCrossCommandWizardPage() {
 		pageID = PAGE_ID;
@@ -69,8 +67,7 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		// initialise properties in local storage
 		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_PATH, ""); //$NON-NLS-1$
 		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_NAME, ""); //$NON-NLS-1$
-		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_API, ""); //$NON-NLS-1$
-		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_ASM, ""); //$NON-NLS-1$
+		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_UPLOADER, ""); //$NON-NLS-1$
 	}
 
 	@Override
@@ -184,28 +181,28 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 		button.setLayoutData(layoutData);
 
-		// EV3 API
-		Label apiLabel = new Label(m_composite, SWT.NONE);
-		apiLabel.setText(Messages.SetCrossCommandWizardPage_api);
+		// Uploader
+		Label uploaderLabel = new Label(m_composite, SWT.NONE);
+		uploaderLabel.setText(Messages.SetCrossCommandWizardPage_uploader);
 
-		m_apiTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
-		String crossCommandApi = "~/ev3/api";
-		m_apiTxt.setText(crossCommandApi);
-		updateApiProperty();
+		m_uploaderTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
+		String crossCommandUploader = "~/ev3/uploader";
+		m_uploaderTxt.setText(crossCommandUploader);
+		updateUploaderProperty();
 
 		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		m_apiTxt.setLayoutData(layoutData);
-		m_apiTxt.addModifyListener(new ModifyListener() {
+		m_uploaderTxt.setLayoutData(layoutData);
+		m_uploaderTxt.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
 
-				updateApiProperty();
+				updateUploaderProperty();
 			}
 		});
 
-		Button apiButton = new Button(m_composite, SWT.NONE);
-		apiButton.setText(Messages.SetCrossCommandWizardPage_browse);
-		apiButton.addSelectionListener(new SelectionListener() {
+		Button uploaderButton = new Button(m_composite, SWT.NONE);
+		uploaderButton.setText(Messages.SetCrossCommandWizardPage_browse);
+		uploaderButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -214,49 +211,12 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 				DirectoryDialog dirDialog = new DirectoryDialog(m_composite
 						.getShell(), SWT.APPLICATION_MODAL);
 				String browsedDirectory = dirDialog.open();
-				m_apiTxt.setText(browsedDirectory);
+				m_uploaderTxt.setText(browsedDirectory);
 
 			}
 		});
 		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		button.setLayoutData(layoutData);
-
-		// Assembler
-		Label asmLabel = new Label(m_composite, SWT.NONE);
-		asmLabel.setText(Messages.SetCrossCommandWizardPage_asm);
-
-		m_asmTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
-		String crossCommandAsm = "~/ev3/asm";
-		m_asmTxt.setText(crossCommandAsm);
-		updateAsmProperty();
-
-		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		m_asmTxt.setLayoutData(layoutData);
-		m_asmTxt.addModifyListener(new ModifyListener() {
-
-			public void modifyText(ModifyEvent e) {
-
-				updateAsmProperty();
-			}
-		});
-
-		Button asmButton = new Button(m_composite, SWT.NONE);
-		asmButton.setText(Messages.SetCrossCommandWizardPage_browse);
-		asmButton.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dirDialog = new DirectoryDialog(m_composite
-						.getShell(), SWT.APPLICATION_MODAL);
-				String browsedDirectory = dirDialog.open();
-				m_asmTxt.setText(browsedDirectory);
-
-			}
-		});
-		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		asmButton.setLayoutData(layoutData);
+		uploaderButton.setLayoutData(layoutData);
 	}
 
 	public Control getControl() {
@@ -314,13 +274,9 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_PATH,
 				m_pathTxt.getText());
 	}
-	private void updateApiProperty() {
-		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_API,
-				m_apiTxt.getText());
-	}
-	private void updateAsmProperty() {
-		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_ASM,
-				m_asmTxt.getText());
+	private void updateUploaderProperty() {
+		MBSCustomPageManager.addPageProperty(PAGE_ID, CROSS_TOOLCHAIN_UPLOADER,
+				m_uploaderTxt.getText());
 	}
 
 

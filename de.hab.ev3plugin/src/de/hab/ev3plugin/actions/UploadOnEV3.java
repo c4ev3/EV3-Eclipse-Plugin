@@ -83,10 +83,10 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			IConfiguration[] configs = buildInfo.getManagedProject()
 					.getConfigurations();
 	
-	/*		MessageDialog.openInformation(window.getShell(), "asm=",
-					ProjectStorage.getValue(configs[0], "asm"));
+	/*		MessageDialog.openInformation(window.getShell(), "uploader=",
+					ProjectStorage.getValue(configs[0], "uploader"));
 		*/
-			String path = ProjectStorage.getValue(configs[0], "asm");
+			String path = ProjectStorage.getValue(configs[0], "uploader");
 			File f = null;
 			if (path != null) f = new File(path);
 		

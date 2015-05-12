@@ -7,6 +7,7 @@
  * 
  * Contributors:
  *     Liviu Ionescu - initial version
+ *    Ahmad Fatoum (Hochschule Aschaffenburg) - Adding Uploader field
  *******************************************************************************/
 
 package ilg.gnuarmeclipse.managedbuild.cross;
@@ -24,10 +25,8 @@ public class SharedStorage {
 			+ "." + SetCrossCommandWizardPage.CROSS_TOOLCHAIN_NAME;
 	static final String SHARED_CROSS_TOOLCHAIN_PATH = Activator.getIdPrefix()
 			+ "." + SetCrossCommandWizardPage.CROSS_TOOLCHAIN_PATH;
-	static final String SHARED_CROSS_TOOLCHAIN_API = Activator.getIdPrefix()
-			+ "." + SetCrossCommandWizardPage.CROSS_TOOLCHAIN_API;
-	static final String SHARED_CROSS_TOOLCHAIN_ASM = Activator.getIdPrefix()
-			+ "." + SetCrossCommandWizardPage.CROSS_TOOLCHAIN_ASM;
+	static final String SHARED_CROSS_TOOLCHAIN_UPLOADER = Activator.getIdPrefix()
+			+ "." + SetCrossCommandWizardPage.CROSS_TOOLCHAIN_UPLOADER;
 
 	public static String getToolchainName() {
 
@@ -51,11 +50,8 @@ public class SharedStorage {
 	public static void putToolchainPath(String toolchainName, String path) {
 		putToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_PATH, path);
 	}
-	public static void putToolchainApi(String toolchainName, String path) {
-		putToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_API, path);
-	}
-	public static void putToolchainAsm(String toolchainName, String path) {
-		putToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_ASM, path);
+	public static void putToolchainUploader(String toolchainName, String path) {
+		putToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_UPLOADER, path);
 	}
 	
 	public static void putToolchainName(String toolchainName) {
@@ -80,13 +76,9 @@ public class SharedStorage {
 	{
 		return getToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_PATH);
 	}
-	public static String getToolchainApi(String toolchainName)
+	public static String getToolchainUploader(String toolchainName)
 	{
-		return getToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_API);
-	}
-	public static String getToolchainAsm(String toolchainName)
-	{
-		return getToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_ASM);
+		return getToolchainValue(toolchainName, SHARED_CROSS_TOOLCHAIN_UPLOADER);
 	}
 	public static void update() {
 

@@ -5,6 +5,36 @@
 		 help="help.html">
 
 	<property-group id="basics" label="%HelloWorld.basics.label" description="%HelloWorld.basics.description" type="PAGES-ONLY" help="help.html">
+	   <property id="apiDir"
+			label="%EV3Project.apiDir.label"
+			description="%EV3Project.apiDir.description"
+			type="browsedir"
+			pattern=".*"
+			default="%EV3Project.apiDir.default"
+			hidden="false"
+			persist="true"/>
+		
+		<property id="uploadDir"
+			label="%EV3Project.uploadDir.label"
+			description="%EV3Project.uploadDir.description"
+			type="select"
+			pattern=".*"
+			default="%EV3Project.selectDir.default"
+			hidden="false"
+			persist="true">
+			<item 
+			value="../prjs/SD_Card"
+			label="SD-Card">
+			</item>
+			<item 
+			value="../prjs/BrkProg_SAVE"
+			label="Internal Storage">
+			</item>
+			<item 
+			value="/media/usb"
+			label="Usb Stick">
+			</item>
+		</property>
 		<property id="author"
 			label="%HelloWorld.author.label"
 			description="%HelloWorld.author.description"
@@ -13,15 +43,7 @@
 			default=""
 			hidden="false"
 			persist="true"/>
-		<property id="copyright"
-			label="%HelloWorld.copyright.label"
-			description="%HelloWorld.copyright.description"
-			type="input"
-			pattern=".*"
-			default="%HelloWorld.copyright.default"
-			hidden="false"
-			persist="true"/>
-		<property id="messagearm"
+	    <property id="messagearm"
 			label="%HelloWorld.message.label"
 			description="%HelloWorld.message.description"
 			type="input"
@@ -52,7 +74,7 @@
 				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" />
 				<simple-array name="values">
 					<element value="&quot;/usr/local/include&quot;" />
-					<element value="${ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.asm}" />
+					<element value="$(apiDir)" />
 				</simple-array>
 				<simple name="path" value="" />
 			</element>
@@ -60,12 +82,25 @@
 				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" />
 				<simple-array name="values">
 					<element value="&quot;/usr/local/include&quot;" />
+					<element value="$(apiDir)" />
 				</simple-array>
 				<simple name="path" value="" />
 			</element>
 		</complex-array>
 	</process>
- 	
+ 	<process type="org.eclipse.cdt.managedbuilder.core.SetMBSStringListOptionValues">
+		<simple name="projectName" value="$(projectName)" />		
+		<complex-array name="resourcePaths">
+			<element>
+				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.libs" />
+				<simple-array name="values">
+					<element value="libev3api.a" />
+				</simple-array>
+				<simple name="path" value="" />
+			</element> 
+		</complex-array>
+	</process>
+	
 	<process type="org.eclipse.cdt.core.CreateSourceFolder">
 		<simple name="projectName" value="$(projectName)"/>
 		<simple name="path" value="$(sourceDir)"/>
@@ -81,7 +116,17 @@
 			</element>
 		</complex-array>
 	</process>
-
+	<process type="org.eclipse.cdt.core.AddFiles">
+		<simple name="projectName" value="$(projectName)"/>
+		<complex-array name="files">
+			<element>
+				<simple name="source" value="start.lms"/>
+				<simple name="target" value="start.lms"/>
+				<simple name="replaceable" value="true"/>
+			</element>
+		</complex-array>
+	</process>
+	
 	<process type="org.eclipse.cdt.ui.OpenFiles">
 		<simple name="projectName" value="$(projectName)"/>
 		<complex-array name="files">

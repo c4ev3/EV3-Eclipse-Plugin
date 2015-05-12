@@ -1,0 +1,19 @@
+define destdir '$(uploadDir)'
+define starter 'myapps/${projctName}Starter.rbf'
+define elfexec '${projectName}'
+// DO NOT REMOVE ABOVE LINES UNLESS YOU KNOW WHAT YOU ARE DOING
+
+// Originally by <fname> Lindner
+
+vmthread MAIN
+{
+    DATA32 Timer
+    DATA32 Status
+// Meist verwendete Pfade:
+//// SD-Karte: 			../prjs/SD_Card
+//// Interner Speicher: ../prjs/BrkProg_SAVE
+//// USB-Stick:			/media/usb
+    SYSTEM('../${projectName}', Status)
+    TIMER_WAIT(1000,Timer)
+    TIMER_READY(Timer)
+}

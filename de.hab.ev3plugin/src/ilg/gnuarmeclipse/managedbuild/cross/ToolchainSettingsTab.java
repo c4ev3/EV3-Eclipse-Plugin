@@ -8,6 +8,7 @@
  * Contributors:
  *    Intel Corporation - Initial API and implementation
  *    James Blackburn (Broadcom Corp.)
+ *    Ahmad Fatoum (Hochschule Aschaffenburg) - Adding Uploader field
  *******************************************************************************/
 
 package ilg.gnuarmeclipse.managedbuild.cross;
@@ -67,8 +68,7 @@ public class ToolchainSettingsTab extends AbstractCBuildPropertyTab {
 
 	private Text m_pathText;
 	private Text m_prefixText;
-	private Text m_apiText;
-	private Text m_asmText;
+	private Text m_uploaderText;
 	private Text m_suffixText;
 	private Text m_commandCText;
 	private Text m_commandCppText;
@@ -401,22 +401,22 @@ public class ToolchainSettingsTab extends AbstractCBuildPropertyTab {
 		});
 		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
 		pathButton.setLayoutData(layoutData);
-// ----- Api -----------------------------------------------------
-		Label apiLabel = new Label(usercomp, SWT.NONE);
-		apiLabel.setText(Messages.ToolChainSettingsTab_api);
+// ----- Uploader -----------------------------------------------------
+		Label uploaderLabel = new Label(usercomp, SWT.NONE);
+		uploaderLabel.setText(Messages.ToolChainSettingsTab_uploader);
 
-		m_apiText = new Text(usercomp, SWT.SINGLE | SWT.BORDER);
-		String toolchainApi = Option.getOptionStringValue(m_config,
-				Option.OPTION_TOOLCHAIN_API);
-		if (toolchainApi != null) {
-			m_apiText.setText(toolchainApi);
+		m_uploaderText = new Text(usercomp, SWT.SINGLE | SWT.BORDER);
+		String toolchainUploader = Option.getOptionStringValue(m_config,
+				Option.OPTION_TOOLCHAIN_UPLOADER);
+		if (toolchainUploader != null) {
+			m_uploaderText.setText(toolchainUploader);
 		}
 		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		m_apiText.setLayoutData(layoutData);
+		m_uploaderText.setLayoutData(layoutData);
 
-		Button apiButton = new Button(usercomp, SWT.NONE);
-		apiButton.setText(Messages.ToolChainSettingsTab_browse);
-		apiButton.addSelectionListener(new SelectionListener() {
+		Button uploadButton = new Button(usercomp, SWT.NONE);
+		uploadButton.setText(Messages.ToolChainSettingsTab_browse);
+		uploadButton.addSelectionListener(new SelectionListener() {
 
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -426,44 +426,12 @@ public class ToolchainSettingsTab extends AbstractCBuildPropertyTab {
 						.getShell(), SWT.APPLICATION_MODAL);
 				String browsedDirectory = dirDialog.open();
 				if (browsedDirectory != null) {
-					m_apiText.setText(browsedDirectory);
+					m_uploaderText.setText(browsedDirectory);
 				}
 			}
 		});
 		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		apiButton.setLayoutData(layoutData);
-
-// ----- Assembler -----------------------------------------------------
-		Label asmLabel = new Label(usercomp, SWT.NONE);
-		asmLabel.setText(Messages.ToolChainSettingsTab_asm);
-
-		m_asmText = new Text(usercomp, SWT.SINGLE | SWT.BORDER);
-		String toolchainAsm = Option.getOptionStringValue(m_config,
-				Option.OPTION_TOOLCHAIN_ASM);
-		if (toolchainAsm != null) {
-			m_asmText.setText(toolchainAsm);
-		}
-		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		m_asmText.setLayoutData(layoutData);
-
-		Button asmButton = new Button(usercomp, SWT.NONE);
-		asmButton.setText(Messages.ToolChainSettingsTab_browse);
-		asmButton.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-				DirectoryDialog dirDialog = new DirectoryDialog(usercomp
-						.getShell(), SWT.APPLICATION_MODAL);
-				String browsedDirectory = dirDialog.open();
-				if (browsedDirectory != null) {
-					m_asmText.setText(browsedDirectory);
-				}
-			}
-		});
-		layoutData = new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1);
-		asmButton.setLayoutData(layoutData);
+		uploadButton.setLayoutData(layoutData);
 
 
 		if (m_isExecutable) {
