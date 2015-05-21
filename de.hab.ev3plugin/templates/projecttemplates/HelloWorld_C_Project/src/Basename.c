@@ -1,10 +1,10 @@
 /*
  ============================================================================
  Name        : $(baseName).c
- Author      : $(author)
+ Author      :
  Version     :
- Copyright   : $(copyright)
- Description : Hello World in C
+ Copyright   :
+ Description : Hello World for the Ev3
  ============================================================================
  */
 
@@ -28,6 +28,6 @@
 int
 main(void)
 {
-  printf("$(messagearm)" "\n");
+  printf("Hello World!\n");
   return 0;
 }

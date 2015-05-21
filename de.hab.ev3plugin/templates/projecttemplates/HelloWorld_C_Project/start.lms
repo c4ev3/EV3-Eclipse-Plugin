@@ -1,6 +1,6 @@
 define destdir '$(uploadDir)'
 define starter 'myapps/${projctName}Starter.rbf'
-define elfexec '${projectName}'
+define elfexec '../${projectName}.elf'
 // DO NOT REMOVE ABOVE LINES UNLESS YOU KNOW WHAT YOU ARE DOING
 
 // Originally by <fname> Lindner
@@ -13,7 +13,7 @@ vmthread MAIN
 //// SD-Karte: 			../prjs/SD_Card
 //// Interner Speicher: ../prjs/BrkProg_SAVE
 //// USB-Stick:			/media/usb
-    SYSTEM('../${projectName}', Status)
+    SYSTEM(elfexec, Status)
     TIMER_WAIT(1000,Timer)
     TIMER_READY(Timer)
 }

@@ -35,22 +35,6 @@
 			label="Usb Stick">
 			</item>
 		</property>
-		<property id="author"
-			label="%HelloWorld.author.label"
-			description="%HelloWorld.author.description"
-			type="input"
-			pattern=".*"
-			default=""
-			hidden="false"
-			persist="true"/>
-	    <property id="messagearm"
-			label="%HelloWorld.message.label"
-			description="%HelloWorld.message.description"
-			type="input"
-			pattern=".*"
-			default="%HelloWorld.message.default"
-			hidden="false"
-			persist="true"/>
 		<property id="sourceDir"
 				label="%HelloWorld.sourceDir.label"
 				description="%HelloWorld.sourceDir.description"
@@ -104,6 +88,11 @@
 	<process type="org.eclipse.cdt.core.CreateSourceFolder">
 		<simple name="projectName" value="$(projectName)"/>
 		<simple name="path" value="$(sourceDir)"/>
+	</process>
+
+	<process type="org.eclipse.cdt.core.CreateFolder">
+		<simple name="projectName" value="$(projectName)"/>
+		<simple name="path" value="myapps"/>
 	</process>
 
 	<process type="org.eclipse.cdt.core.AddFiles">

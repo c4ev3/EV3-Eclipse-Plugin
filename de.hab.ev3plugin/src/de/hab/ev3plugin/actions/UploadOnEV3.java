@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Hashtable;
 
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
@@ -31,9 +32,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import de.hab.ev3plugin.Activator;
+import de.hab.ev3plugin.Assembler;
 import de.hab.ev3plugin.EV3Duder;
+import de.hab.ev3plugin.Preprocessor;
 import de.hab.ev3plugin.progress.Progress;
 import de.hab.ev3plugin.util.Gui;
+import de.hab.ev3plugin.util.IO;
 
 public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 
@@ -53,18 +57,17 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			
 			String projectRoot = proj.getLocation().toString();
 			String projectName = proj.getName();
+			
 			String workspaceRoot = ResourcesPlugin.getWorkspace().getRoot()
 					.getLocation().toString(); // get location of workspace
 
 			String localBinary = projectRoot + File.separator + "debug"
 					+ File.separator + projectName;
 			String remoteBinary = "../prjs/SD_Card/" + projectName;
-			String localLauncher = workspaceRoot + File.separator + "myapps"
-					+ File.separator + projectName + "Starter.rbf";
+			String localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
 			String remoteLauncher = "../prjs/SD_Card/myapps/" + projectName
 					+ "Starter.rbf";
 
-			// String ev3_cp = Activator.get
 			Shell shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
 					.getWorkbench().getActiveWorkbenchWindow().getShell();
 			Progress dialog = new Progress(shell);
@@ -83,26 +86,75 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			IConfiguration[] configs = buildInfo.getManagedProject()
 					.getConfigurations();
 	
-	/*		MessageDialog.openInformation(window.getShell(), "uploader=",
+        /*	MessageDialog.openInformation(window.getShell(), "uploader=",
 					ProjectStorage.getValue(configs[0], "uploader"));
 		*/
 			String path = ProjectStorage.getValue(configs[0], "uploader");
-			File f = null;
-			if (path != null) f = new File(path);
-		
-			if (f == null || !f.exists() || f.isDirectory())
+			File uploader = null;
+			File assembler = null;
+			EV3Duder ev3duder = null;	
+			String relPathToElf = "../" + projectName + ".elf";
+
+			if (path != null) {
+				uploader = new File(uploader, "ev3duder"); // externalise this!
+				assembler = new File(uploader, "assembler.jar"); // check for its dependencies!
+			}
+			if (uploader == null || !uploader.exists() || uploader.isDirectory())
 			{
-				MessageDialog.openError(shell, "Uploader not found", "The project's uploader path <"
-						+ path +
-						"> is invalid. Try correcting it");
-			}else {
-			EV3Duder ev3duder = new EV3Duder(path, shell);
-			dialog.setProgress(20, "Uploading binary file..");
-			dialog.setProgress(20, "Uploading binary file..");
-			if (ev3duder.transferFile(localBinary, remoteBinary)) {
+
+			}
+			else
+			{
+				ev3duder = new EV3Duder(path, shell);
+			}
+			do {	
+				dialog.setProgress(20, "Assembling starter..");
+				dialog.setProgress(20, "Assembling starter..");
+
+				if (assembler == null || !assembler.exists() || assembler.isDirectory()) {
+				//	MessageDialog.openWarning(shell, "Assembling failed","Either the <assembler.jar> file couldn't be found in "+ path +
+				//		" or the project has no <start.lms>. Default values will be used."); // change warnings to write to log!
+
+					if (ev3duder == null)
+						break; // no assembler + no uploader = nothing to do
+					
+					if (ev3duder.command("mkrbf", relPathToElf, localLauncher))
+						break;	
+					remoteLauncher = "/media/card/myapps/" + relPathToElf;
+				}else
+				{
+                        Hashtable<String, String> map = new Hashtable<String, String>();
+                        map.put("${projectName}", projectName);
+                        Preprocessor pp = new Preprocessor(localLauncher);
+                        String temp_starter = IO.removeExtension(pp.run(map).toString());
+                        //Assembler asm = new Assembler(temp_starter, uploader);
+                        (new Assembler(temp_starter, uploader)).run();
+                        //asm.run();
+
+                        IO.copy(new File(temp_starter + ".rbf"), new File(projectRoot + "myapps/start.rbf"));
+                        // Now let's get upload params
+                        Hashtable<String, String> defines = pp.defines();
+                        remoteBinary = defines.get("destdir") + "/" + defines.get("elfexec");
+                        remoteLauncher = defines.get("destdir") + "/" + defines.get("starter");
+
+				}	
+				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
+
+				dialog.setProgress(40, "Attempting to create directory");
+				dialog.setProgress(40, "Attempting to create directory");
+				ev3duder.command("mkdir", IO.getParent(remoteLauncher));
+
+				dialog.setProgress(60, "Uploading ELF executable..");
+				dialog.setProgress(60, "Uploading ELF executable..");
+
+				if (!ev3duder.transferFile(localBinary, remoteBinary)) {
+					// do stuff
+					break;
+				}
 				Thread.sleep(300);
-				dialog.setProgress(60, "Uploading starter file..");
-				dialog.setProgress(60, "Uploading starter file..");
+
+				dialog.setProgress(80, "Uploading starter file..");
+				dialog.setProgress(80, "Uploading starter file..");
 				if (ev3duder.transferFile(localLauncher, remoteLauncher)) {
 					Thread.sleep(300);
 
@@ -110,12 +162,18 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 					dialog.setProgress(90, "finalizing..");
 					// dialog.setProgress(99);
 				}
-			}
-			} 	
+				
+}while(false); // a legitimate use for goto IMHO
+if (ev3duder == null)
+{
+	
+		MessageDialog.openError(shell, "Uploader not found", "The project's uploader path <"
+								+ path +
+								"> is invalid. Try correcting it");
+}
 			//Thread.sleep(1000);
-
 			dialog.close();
-		} catch (Exception e) {
+			} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
