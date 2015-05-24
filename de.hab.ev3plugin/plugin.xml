@@ -1102,7 +1102,9 @@
             <enumeratedOptionValue
                   command="-mcpu=arm9"
                   id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.mcpu.arm9"
-                  name="arm9">
+                  name="arm9"
+                  isDefault="true"
+                  >
             </enumeratedOptionValue>
             <enumeratedOptionValue
                   command="-mcpu=arm9e"
@@ -1272,7 +1274,7 @@
             <enumeratedOptionValue
                   command="-mcpu=cortex-m3"
                   id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.mcpu.cortex-m3"
-                  isDefault="true"
+                  isDefault="false"
                   name="cortex-m3">
             </enumeratedOptionValue>
             <enumeratedOptionValue
@@ -1523,13 +1525,14 @@
             <enumeratedOptionValue
                   command="-mthumb"
                   id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.thumb"
-                  isDefault="true"
+                  isDefault="false"
                   name="%option.target.arm.instructionset.thumb">
             </enumeratedOptionValue>
             <enumeratedOptionValue
                   command="-marm"
                   id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.arm"
-                  name="%option.target.arm.instructionset.arm">
+                  name="%option.target.arm.instructionset.arm"
+                  isDefault="true">
             </enumeratedOptionValue>
             <enumeratedOptionValue
                   id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.default"

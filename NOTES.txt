@@ -1,0 +1,2 @@
+- Die Konfiguration der Speicherallokation fuer den Garbage collector fuer Eclipse mit Plugin Ausprobieren ist separat von normal Eclipse.
+D.h. bei "PermGen space"-Fehlern muss mehr Speicher erlaubt werden. Window>Preferences>Java>Installed JREs und dann fuer JRE 7 -XX:MaxPermSize=256m setzen.

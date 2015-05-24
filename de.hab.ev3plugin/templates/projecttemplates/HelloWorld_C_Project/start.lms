@@ -1,18 +1,14 @@
+// most used paths: /media/card, /media/usb and ../prjs/BrkProg_SAVE for internal Memory
 define destdir '$(uploadDir)'
 define starter 'myapps/${projctName}Starter.rbf'
 define elfexec '../${projectName}.elf'
-// DO NOT REMOVE ABOVE LINES UNLESS YOU KNOW WHAT YOU ARE DOING
+// don't edit the above, unless you knowin what ye doin
 
-// Originally by <fname> Lindner
-
+// stolen from http://www.robotnav.com/run-programs-without-network/
 vmthread MAIN
 {
     DATA32 Timer
     DATA32 Status
-// Meist verwendete Pfade:
-//// SD-Karte: 			../prjs/SD_Card
-//// Interner Speicher: ../prjs/BrkProg_SAVE
-//// USB-Stick:			/media/usb
     SYSTEM(elfexec, Status)
     TIMER_WAIT(1000,Timer)
     TIMER_READY(Timer)

@@ -186,7 +186,7 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		uploaderLabel.setText(Messages.SetCrossCommandWizardPage_uploader);
 
 		m_uploaderTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
-		String crossCommandUploader = "~/ev3/uploader";
+		String crossCommandUploader = "C:\\ev3\\uploader"; //TODO: checkk for windows
 		m_uploaderTxt.setText(crossCommandUploader);
 		updateUploaderProperty();
 

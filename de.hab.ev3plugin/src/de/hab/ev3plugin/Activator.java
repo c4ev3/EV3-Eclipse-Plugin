@@ -150,7 +150,7 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	public static void log(String msg, Exception e) {
-		plugin.getLog().log(
-				new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, e));
+	//	plugin.getLog().log(
+		//		new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, e));
 	}
 }

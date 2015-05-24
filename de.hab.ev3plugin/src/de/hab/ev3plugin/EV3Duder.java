@@ -14,11 +14,130 @@ import org.eclipse.swt.widgets.Shell;
 public class EV3Duder { // wrapper for the ev3dude CLI program
 	private String path;
 	private Shell shell;
+	private boolean silent = false;
 	public EV3Duder(String path, Shell shell) { 
 		this.path = path;
 		this.shell = shell;
 	}
 
+	
+
+	public static void spawn(String path, Shell shell) {
+		ProcessBuilder pb = new ProcessBuilder(path, "test"); // TODO: not portable!
+
+		stdoutHandler thread = new stdoutHandler(pb, null);
+		thread.run();
+
+		MessageDialog.openInformation(shell, "Lego EV3",
+				"Process exited with: " + thread.getReturn());
+	}
+	public boolean toggleSilence()
+	{
+		silent = !silent;
+		return silent;
+	}
+	public boolean transferFile(String local, String remote) { // TODO:
+																		// pass
+																		// a
+																		// callback
+																		// where
+																		// stderr
+																		// is
+																		// written
+		Activator
+				.log("0) Invoking " + path);
+		ProcessBuilder pb = new ProcessBuilder(path, "up", local, remote); // TODO: not portable!
+
+		Activator.log("1) attempting getting " + local + " to " + remote);
+
+		/*
+		 * stdoutHandler thread = new stdoutHandler(pb); thread.run(); return
+		 * thread.getReturn() == 0;
+		 */
+		ProcessBuilderWrapper ev3duder;
+		try {
+			ev3duder = new ProcessBuilderWrapper(pb);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		String[] lines = ev3duder.getErrors().split(
+				System.getProperty("line.separator"));
+		if (!silent)
+		{
+			for (String line : lines) {
+				Activator.log(line);
+			}
+			if (ev3duder.getStatus() != 0)
+				MessageDialog.openError(shell,
+						"Error uploading (code=" + ev3duder.getStatus() + ")",
+						ev3duder.getInfos());
+		}
+		return ev3duder.getStatus() == 0;
+		// BufferedReader reader = new BufferedReader(
+		// new InputStreamReader(p.getInputStream()));
+		// String line = null;
+		// while ((line = reader.readLine()) != null) {
+		// Activator.log(line);
+		// }
+	}
+
+	public boolean command(String command, String...args)
+	{
+		String cmdline[] = new String[args.length + 2];
+		cmdline[0] = path;
+		cmdline[1] = command;
+		System.arraycopy(args, 0, cmdline, 2, args.length);
+		ProcessBuilder pb = new ProcessBuilder(cmdline); // TODO: not portable!
+
+
+		ProcessBuilderWrapper ev3duder;
+		try {
+			ev3duder = new ProcessBuilderWrapper(pb);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+
+		String[] lines = ev3duder.getErrors().split(
+				System.getProperty("line.separator"));
+		if (!silent)
+		{
+			for (String line : lines) {
+				Activator.log(line);
+				//FIXME: use the log
+			}
+			if (ev3duder.getStatus() != 0)
+				MessageDialog.openError(shell,
+					"Error in Uploader (code=" + ev3duder.getStatus() + ")",
+					ev3duder.getInfos());
+		}
+		return ev3duder.getStatus() == 0;
+	}
+	public boolean startFile(String remote) {
+		ProcessBuilder pb = new ProcessBuilder(path, "exec", remote); // TODO: not portable!
+
+		ProcessBuilderWrapper ev3duder;
+		try {
+			ev3duder = new ProcessBuilderWrapper(pb);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		if (!silent)
+		{
+			if (ev3duder.getStatus() != 0)
+				MessageDialog.openError(shell,
+					"Error uploading (code=" + ev3duder.getStatus() + ")",
+					ev3duder.getInfos());
+		}
+		return ev3duder.getStatus() == 0;
+	}
+	
 	static class stdoutHandler extends Thread {
 		public int exitValue = -1337; // unset magic
 		private Process proc;
@@ -65,110 +184,5 @@ public class EV3Duder { // wrapper for the ev3dude CLI program
 		public int getReturn() {
 			return exitValue;
 		}
-	}
-
-	public static void spawn(String path, Shell shell) {
-		ProcessBuilder pb = new ProcessBuilder(path, "test"); // TODO: not portable!
-
-		stdoutHandler thread = new stdoutHandler(pb, null);
-		thread.run();
-
-		MessageDialog.openInformation(shell, "Lego EV3",
-				"Process exited with: " + thread.getReturn());
-	}
-
-	public boolean transferFile(String local, String remote) { // TODO:
-																		// pass
-																		// a
-																		// callback
-																		// where
-																		// stderr
-																		// is
-																		// written
-		Activator
-				.log("0) Invoking " + path);
-		ProcessBuilder pb = new ProcessBuilder(path, "up", local, remote); // TODO: not portable!
-
-		Activator.log("1) attempting getting " + local + " to " + remote);
-
-		/*
-		 * stdoutHandler thread = new stdoutHandler(pb); thread.run(); return
-		 * thread.getReturn() == 0;
-		 */
-		ProcessBuilderWrapper ev3duder;
-		try {
-			ev3duder = new ProcessBuilderWrapper(pb);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		String[] lines = ev3duder.getErrors().split(
-				System.getProperty("line.separator"));
-		for (String line : lines) {
-			Activator.log(line);
-		}
-		if (ev3duder.getStatus() != 0)
-			MessageDialog.openError(shell,
-					"Error uploading (code=" + ev3duder.getStatus() + ")",
-					ev3duder.getInfos());
-
-		return ev3duder.getStatus() == 0;
-		// BufferedReader reader = new BufferedReader(
-		// new InputStreamReader(p.getInputStream()));
-		// String line = null;
-		// while ((line = reader.readLine()) != null) {
-		// Activator.log(line);
-		// }
-	}
-	public boolean command(String command, String...args)
-	{
-		String cmdline[] = new String[args.length + 2];
-		cmdline[0] = path;
-		cmdline[1] = command;
-		System.arraycopy(args, 0, cmdline, 2, args.length);
-		ProcessBuilder pb = new ProcessBuilder(cmdline); // TODO: not portable!
-
-
-		ProcessBuilderWrapper ev3duder;
-		try {
-			ev3duder = new ProcessBuilderWrapper(pb);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		String[] lines = ev3duder.getErrors().split(
-				System.getProperty("line.separator"));
-		for (String line : lines) {
-			Activator.log(line);
-			//FIXME: use the log
-		}
-		if (ev3duder.getStatus() != 0)
-			MessageDialog.openError(shell,
-					"Error in Uploader (code=" + ev3duder.getStatus() + ")",
-					ev3duder.getInfos());
-
-		return ev3duder.getStatus() == 0;
-	}
-	public boolean startFile(String remote) {
-		ProcessBuilder pb = new ProcessBuilder(path, "exec", remote); // TODO: not portable!
-
-		ProcessBuilderWrapper ev3duder;
-		try {
-			ev3duder = new ProcessBuilderWrapper(pb);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		if (ev3duder.getStatus() != 0)
-			MessageDialog.openError(shell,
-					"Error uploading (code=" + ev3duder.getStatus() + ")",
-					ev3duder.getInfos());
-
-		return ev3duder.getStatus() == 0;
 	}
 }

@@ -61,16 +61,17 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			String workspaceRoot = ResourcesPlugin.getWorkspace().getRoot()
 					.getLocation().toString(); // get location of workspace
 
-			String localBinary = projectRoot + File.separator + "debug"
-					+ File.separator + projectName;
-			String remoteBinary = "../prjs/SD_Card/" + projectName;
+			String localBinary = projectRoot + "/debug/" + projectName + ".elf";
+			String remoteBinary = "/media/card/" + projectName + ".elf";
 			String localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
-			String remoteLauncher = "../prjs/SD_Card/myapps/" + projectName
+			String remoteLauncher = "/media/card/myapps/" + projectName
 					+ "Starter.rbf";
-
+			boolean windows = System.getProperty("os.name").startsWith("Windows");
+			String ev3duder_binname = windows ? "ev3duder.exe" : "ev3duder";
 			Shell shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
 					.getWorkbench().getActiveWorkbenchWindow().getShell();
 			Progress dialog = new Progress(shell);
+			boolean nowait = true; // TODO: add to .lms define nowait
 			// Display display = Display.getDefault();
 			// Progress dialog = new Progress(new Shell(display, SWT.MODELESS));
 			dialog.setBlockOnOpen(false);
@@ -93,11 +94,10 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			File uploader = null;
 			File assembler = null;
 			EV3Duder ev3duder = null;	
-			String relPathToElf = "../" + projectName + ".elf";
-
+			
 			if (path != null) {
-				uploader = new File(uploader, "ev3duder"); // externalise this!
-				assembler = new File(uploader, "assembler.jar"); // check for its dependencies!
+				uploader = new File(path, ev3duder_binname); // externalise this!
+				assembler = new File(path, "assembler.jar"); // check for its dependencies!
 			}
 			if (uploader == null || !uploader.exists() || uploader.isDirectory())
 			{
@@ -105,7 +105,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			}
 			else
 			{
-				ev3duder = new EV3Duder(path, shell);
+				ev3duder = new EV3Duder(uploader.toString(), shell);
 			}
 			do {	
 				dialog.setProgress(20, "Assembling starter..");
@@ -116,11 +116,19 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 				//		" or the project has no <start.lms>. Default values will be used."); // change warnings to write to log!
 
 					if (ev3duder == null)
+					{
+						MessageDialog.openWarning(shell, "Uploader not found",
+								"Ev3duder couldn't be found in " + path + "!");
 						break; // no assembler + no uploader = nothing to do
-					
-					if (ev3duder.command("mkrbf", relPathToElf, localLauncher))
+					}
+					if (!ev3duder.command("mkrbf", "/media/card/" + projectName + ".elf", localLauncher))
+					{
+						MessageDialog.openWarning(shell, "Mkrbf failed",
+								"Ev3duder couldn't mkrbf :( ");
 						break;	
-					remoteLauncher = "/media/card/myapps/" + relPathToElf;
+					}
+						
+					remoteBinary = "/media/card/" + projectName + ".elf";
 				}else
 				{
                         Hashtable<String, String> map = new Hashtable<String, String>();
@@ -131,47 +139,54 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
                         (new Assembler(temp_starter, uploader)).run();
                         //asm.run();
 
-                        IO.copy(new File(temp_starter + ".rbf"), new File(projectRoot + "myapps/start.rbf"));
+                        IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
                         // Now let's get upload params
                         Hashtable<String, String> defines = pp.defines();
                         remoteBinary = defines.get("destdir") + "/" + defines.get("elfexec");
-                        remoteLauncher = defines.get("destdir") + "/" + defines.get("starter");
+                        remoteLauncher = defines.get("destdir") + "/myapps/" + defines.get("starter") + ".rbf";
 
 				}	
 				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
-
+				ev3duder.toggleSilence();
 				dialog.setProgress(40, "Attempting to create directory");
 				dialog.setProgress(40, "Attempting to create directory");
 				ev3duder.command("mkdir", IO.getParent(remoteLauncher));
-
+				ev3duder.toggleSilence();
+				
 				dialog.setProgress(60, "Uploading ELF executable..");
 				dialog.setProgress(60, "Uploading ELF executable..");
 
 				if (!ev3duder.transferFile(localBinary, remoteBinary)) {
-					// do stuff
+					MessageDialog.openWarning(shell, "Uploading binary failed",
+							" no idea. sorry ."); // change warnings to write to log!
+
 					break;
 				}
-				Thread.sleep(300);
+				if (!nowait) Thread.sleep(300);
 
 				dialog.setProgress(80, "Uploading starter file..");
 				dialog.setProgress(80, "Uploading starter file..");
-				if (ev3duder.transferFile(localLauncher, remoteLauncher)) {
-					Thread.sleep(300);
+				if (!ev3duder.transferFile(localLauncher, remoteLauncher)) {
+					MessageDialog.openWarning(shell, "Uploading launcher failed",
+							" no idea. sorry ."); // change warnings to write to log!
+					break;
+				}
+					if (!nowait) Thread.sleep(300);
 
 					dialog.setProgress(90, "finalizing..");
 					dialog.setProgress(90, "finalizing..");
 					// dialog.setProgress(99);
-				}
+				
 				
 }while(false); // a legitimate use for goto IMHO
 if (ev3duder == null)
 {
-	
+	//TODO: remove connect on mkrbf
 		MessageDialog.openError(shell, "Uploader not found", "The project's uploader path <"
 								+ path +
 								"> is invalid. Try correcting it");
 }
-			//Thread.sleep(1000);
+			//if (!nowait) Thread.sleep(1000);
 			dialog.close();
 			} catch (Exception e) {
 			// TODO Auto-generated catch block
