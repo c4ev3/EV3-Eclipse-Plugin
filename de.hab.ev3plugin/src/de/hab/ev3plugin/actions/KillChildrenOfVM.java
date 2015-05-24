@@ -11,7 +11,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import de.hab.ev3plugin.Activator;
-import de.hab.ev3plugin.EV3Duder;
+import de.hab.ev3plugin.Ev3Duder;
 
 
 public class KillChildrenOfVM implements IWorkbenchWindowActionDelegate {
@@ -24,7 +24,7 @@ public class KillChildrenOfVM implements IWorkbenchWindowActionDelegate {
 						window.getShell(),
 						"Lego EV3",
 						"Check for lms2012's children and TERM INT QUIT with pause, then KILL");
-				EV3Duder.spawn("",window.getShell());
+				Ev3Duder.spawn("",window.getShell());
 	}
 
 	@Override

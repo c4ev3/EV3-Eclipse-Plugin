@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class EV3Duder { // wrapper for the ev3dude CLI program
+public class Ev3Duder { // wrapper for the ev3dude CLI program
+	private String stdout;
+	private String stderr;
+
 	private String path;
 	private Shell shell;
 	private boolean silent = false;
-	public EV3Duder(String path, Shell shell) { 
+	public Ev3Duder(String path, Shell shell) { 
 		this.path = path;
 		this.shell = shell;
 	}
@@ -31,10 +34,9 @@ public class EV3Duder { // wrapper for the ev3dude CLI program
 		MessageDialog.openInformation(shell, "Lego EV3",
 				"Process exited with: " + thread.getReturn());
 	}
-	public boolean toggleSilence()
+	public void setSilent(boolean state)
 	{
-		silent = !silent;
-		return silent;
+		this.silent = state;
 	}
 	public boolean transferFile(String local, String remote) { // TODO:
 																		// pass
@@ -83,7 +85,14 @@ public class EV3Duder { // wrapper for the ev3dude CLI program
 		// Activator.log(line);
 		// }
 	}
-
+	public String getStderr()
+	{
+		return stderr;
+	}
+	public String getStdout()
+	{
+		return stdout;
+	}
 	public boolean command(String command, String...args)
 	{
 		String cmdline[] = new String[args.length + 2];
@@ -115,6 +124,8 @@ public class EV3Duder { // wrapper for the ev3dude CLI program
 					"Error in Uploader (code=" + ev3duder.getStatus() + ")",
 					ev3duder.getInfos());
 		}
+		stdout = ev3duder.getInfos();
+		stderr = ev3duder.getErrors();
 		return ev3duder.getStatus() == 0;
 	}
 	public boolean startFile(String remote) {
@@ -185,4 +196,5 @@ public class EV3Duder { // wrapper for the ev3dude CLI program
 			return exitValue;
 		}
 	}
+
 }

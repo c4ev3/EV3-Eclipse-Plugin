@@ -45,4 +45,8 @@ public class IO {
     { 
     	return dir.substring(0, dir.lastIndexOf("/"));
     }
+    public static String getName(String dir) 
+    { 
+    	return dir.substring(dir.lastIndexOf("/") + 1);
+    }
 }

@@ -33,7 +33,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import de.hab.ev3plugin.Activator;
 import de.hab.ev3plugin.Assembler;
-import de.hab.ev3plugin.EV3Duder;
+import de.hab.ev3plugin.Ev3Duder;
 import de.hab.ev3plugin.Preprocessor;
 import de.hab.ev3plugin.progress.Progress;
 import de.hab.ev3plugin.util.Gui;
@@ -93,7 +93,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			String path = ProjectStorage.getValue(configs[0], "uploader");
 			File uploader = null;
 			File assembler = null;
-			EV3Duder ev3duder = null;	
+			Ev3Duder ev3duder = null;	
 			
 			if (path != null) {
 				uploader = new File(path, ev3duder_binname); // externalise this!
@@ -105,7 +105,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			}
 			else
 			{
-				ev3duder = new EV3Duder(uploader.toString(), shell);
+				ev3duder = new Ev3Duder(uploader.toString(), shell);
 			}
 			do {	
 				dialog.setProgress(20, "Assembling starter..");
@@ -147,11 +147,11 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 
 				}	
 				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
-				ev3duder.toggleSilence();
+				ev3duder.setSilent(true);
 				dialog.setProgress(40, "Attempting to create directory");
 				dialog.setProgress(40, "Attempting to create directory");
 				ev3duder.command("mkdir", IO.getParent(remoteLauncher));
-				ev3duder.toggleSilence();
+				ev3duder.setSilent(false);
 				
 				dialog.setProgress(60, "Uploading ELF executable..");
 				dialog.setProgress(60, "Uploading ELF executable..");
