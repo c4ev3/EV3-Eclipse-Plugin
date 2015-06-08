@@ -21,36 +21,19 @@ private static final Image driveImage = AbstractUIPlugin
 private static final Image fileImage = AbstractUIPlugin
 .imageDescriptorFromPlugin(Activator.PLUGIN_ID,
 "icons/file_obj.gif").createImage();
+private static final Image shutImage = AbstractUIPlugin
+.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+"icons/fileshut_nav.ico").createImage();
 
 @Override
 public Image getImage(Object element) {
-        @SuppressWarnings("unchecked")
-        Pair<File, Ev3File> pair = (Pair<File, Ev3File>) element;
-        if (pair.left != null)
-        {	
-        	File file = pair.left;
-        	if (file.isDirectory())
-        		return file.getParent() != null ? folderImage : driveImage;
-        	return fileImage;
-        }else{
-        	Ev3File file = pair.right;
-        	return file.isDirectory() ? folderImage : driveImage;
-        }
+		Ev3File file = (Ev3File) element;
+        return file.isRestricted() ? shutImage : file.getParent() == null ? driveImage : file.isDirectory() ? folderImage : fileImage;
 }
 
 @Override
 public String getText(Object element) {
-      @SuppressWarnings("unchecked")
-       Pair<File, Ev3File> pair = (Pair<File, Ev3File>) element;
-       if (pair.left != null)
-       {	
-    	   File file = pair.left;
-    	   String fileName = ((File) file).getName();
-if (fileName.length() > 0) {
-return fileName;
-}
-return ((File) file).getPath();
-} else return pair.right.getName(); 
+	return ((Ev3File) element).getName();
 
 }
 }

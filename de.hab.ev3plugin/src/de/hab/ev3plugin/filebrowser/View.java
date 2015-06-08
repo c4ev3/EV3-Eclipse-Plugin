@@ -27,51 +27,28 @@ public class View extends ViewPart {
 	public static final String ID = "de.hab.ev3plugin.filebrowser.view";
 	private TreeViewer viewer;
 	public void createPartControl(Composite parent) {
-		Ev3Duder ev3 = new Ev3Duder("ev3", null);
+		Ev3Duder ev3 = new Ev3Duder("/Users/a3f/prjs/ev3duder/ev3duder", null);
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FileContentProvider());
 		viewer.setLabelProvider(new FileLabelProvider());
-		viewer.setInput(new Pair<File[], Ev3File[]>(File.listRoots(), Ev3File.listRoots(ev3)));
+		viewer.setInput(Ev3File.listRoots(ev3));
 		viewer.addOpenListener(new IOpenListener() {
-
 			@Override
 			public void open(OpenEvent event) {
 				IStructuredSelection selection = (IStructuredSelection) event
 						.getSelection();
 				//if (((Pair<Boolean, Object>)selection.getFirstElement()).left == false)
-				@SuppressWarnings("unchecked")
-				Pair<File, Ev3File> pair = (Pair<File, Ev3File>)selection.getFirstElement();
-
-				if (pair.left == null)
-				{
-					Ev3File file = pair.right;
-					// thinks of a default action
+				Ev3File file = (Ev3File)selection.getFirstElement();
+				if (file.getName().equals("- click to refresh"))
+					{
+		Ev3Duder ev3 = new Ev3Duder("/Users/a3f/prjs/ev3duder/ev3duder", null);
+				viewer.setInput(Ev3File.listRoots(ev3));
+					viewer.refresh();}
+				else
 					MessageDialog.openInformation(null, "Ev3File", 
 						"info here later"
 							);
-				}
-				else if (pair.right == null)
-				{
-					File file = pair.left;
-                        if (Desktop.isDesktopSupported()) {
-                                Desktop desktop = Desktop.getDesktop();
-                                if (desktop.isSupported(Desktop.Action.OPEN)) {
-                                        try {
-                                                desktop.open(file);
-                                        } catch (IOException e) {
-                                                // DO NOTHING
-                                                try {
-                                                        desktop.open(new File(
-                                                                        System.getProperty("user.home")));
-                                                } catch (IOException e1) {
-                                                        // TODO Auto-generated catch block
-                                                        e1.printStackTrace();
-                                                }
-                                        }
-                                }
-                        }
-				}
-			}
+							}
 		});
 	}
 

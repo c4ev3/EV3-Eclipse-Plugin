@@ -17,9 +17,8 @@ public class FileContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(Object parent) {
-		@SuppressWarnings("unchecked")
-		Pair<File, Ev3File> file = (Pair<File, Ev3File>) parent;
-		return file.left != null ? new >file.left.listFiles() : file.right.listFiles();
+		Ev3File file = (Ev3File) parent;
+		return file.listFiles();
 	}
 
 	public Object[] getElements(Object inputElement) {
@@ -28,16 +27,14 @@ public class FileContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object getParent(Object element) {
-		@SuppressWarnings("unchecked")
-		Pair<File, Ev3File> file = (Pair<File, Ev3File>) element;
-		return file.left != null ? file.left.getParentFile() : file.right.getParentFile();
+		Ev3File file = (Ev3File) element;
+		return file.getParentFile();
 	}
 
 	@Override
 	public boolean hasChildren(Object parent) {
-		@SuppressWarnings("unchecked")
-		Pair<File, Ev3File> file = (Pair<File, Ev3File>) parent;
-		return file.left != null ? file.left.isDirectory() : file.right.isDirectory();
+		Ev3File file = (Ev3File) parent;
+		return file.isDirectory();
 	}
 
 	@Override
