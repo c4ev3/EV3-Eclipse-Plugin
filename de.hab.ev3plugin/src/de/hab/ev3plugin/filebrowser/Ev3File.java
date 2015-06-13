@@ -63,9 +63,7 @@ public class Ev3File {
 			return contents;
 		}
 		boolean ret = ev3.command("ls", this.path);
-		MessageDialog.openInformation(null, "Ev3File", 
-				"Listing files for <" + this.path + ">"
-					);
+		//MessageDialog.openInformation(null, "Ev3File", "Listing files for <" + this.path + ">");
 		if (ev3.getStdout() == null)
 		{
 				System.out.println("no stdout;");
@@ -123,7 +121,8 @@ public class Ev3File {
 				return "/";
 			else
                 return IO.getName(path);
-		return "Some error occured";
+			
+		return "- Some error occured";
 	}
 	public String getParent()
 	{

@@ -150,7 +150,10 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		m_pathTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
 		String crossCommandPath = SharedStorage
 				.getToolchainPath(m_selectedToolchainName);
-		m_pathTxt.setText(crossCommandPath);
+		if (crossCommandPath == null || crossCommandPath.isEmpty())
+			m_pathTxt.setText("C:\\CSLite\\bin\\");
+		else	
+			m_pathTxt.setText(crossCommandPath);
 		updatePathProperty();
 
 		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);

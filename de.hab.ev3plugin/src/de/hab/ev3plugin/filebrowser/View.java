@@ -27,7 +27,12 @@ public class View extends ViewPart {
 	public static final String ID = "de.hab.ev3plugin.filebrowser.view";
 	private TreeViewer viewer;
 	public void createPartControl(Composite parent) {
-		Ev3Duder ev3 = new Ev3Duder("/Users/a3f/prjs/ev3duder/ev3duder", null);
+		final Ev3Duder ev3;
+		if (System.getProperty("os.name").startsWith("Windows"))
+			ev3 = new Ev3Duder("C:\\ev3\\uploader\\ev3duder.exe", null);
+		else
+			ev3 = new Ev3Duder("/Users/a3f/prjs/ev3duder/ev3duder", null); //FIXME!!!!!!!!!!!!!!1
+			
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FileContentProvider());
 		viewer.setLabelProvider(new FileLabelProvider());
@@ -41,14 +46,12 @@ public class View extends ViewPart {
 				Ev3File file = (Ev3File)selection.getFirstElement();
 				if (file.getName().equals("- click to refresh"))
 					{
-		Ev3Duder ev3 = new Ev3Duder("/Users/a3f/prjs/ev3duder/ev3duder", null);
-				viewer.setInput(Ev3File.listRoots(ev3));
+					//viewer.setInput(Ev3File.listRoots(ev3));
 					viewer.refresh();}
 				else
-					MessageDialog.openInformation(null, "Ev3File", 
-						"info here later"
-							);
-							}
+			//		MessageDialog.openInformation(null, "Ev3File", "info here later")
+					;
+			}
 		});
 	}
 

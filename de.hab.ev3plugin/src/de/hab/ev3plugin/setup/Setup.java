@@ -16,7 +16,7 @@ import de.hab.ev3plugin.Activator;
 
 public class Setup {
 	public static void setDefaults(IProject proj) {
-		configOptions(proj, "C:\\EV3\\API");
+		configOptions(proj, "C:\\EV3\\API"); //TODO: FIXME
 	}
 
 	public static void configOptions(IProject proj, String api) {

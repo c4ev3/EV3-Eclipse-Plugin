@@ -2,7 +2,7 @@
 define destdir '$(uploadDir)'
 define starter 'myapps/${projctName}Starter.rbf'
 define elfexec '../${projectName}.elf'
-// don't edit the above, unless you knowin what ye doin
+// don't edit the above, unless ye knowin what ye doin
 
 // stolen from http://www.robotnav.com/run-programs-without-network/
 vmthread MAIN

@@ -47,6 +47,9 @@ public class IO {
     }
     public static String getName(String dir) 
     { 
+    	if (dir.equals("/"))
+    		return dir;
+    	
     	return dir.substring(dir.lastIndexOf("/") + 1);
     }
 }

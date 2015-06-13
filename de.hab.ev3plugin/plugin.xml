@@ -61,7 +61,7 @@
                style="push"
                tooltip="Run after Making it available in the menu">
          </action>
-         
+        
          <action
                class="de.hab.ev3plugin.actions.KillChildrenOfVM"
                icon="icons/KillAll.png"
@@ -4034,22 +4034,29 @@
             content-type="org.eclipse.cdt.core.asmSource"
             file-extensions="s,S,asm">
       </file-association>
+         <content-type
+            base-type="org.eclipse.cdt.core.cSource"
+            file-extensions="lms,lmsasm"
+            id="de.hab.ev3plugin.lms.contenttype"
+            name="lms2012 Assembly File"
+            priority="high">
+		</content-type>
    </extension>
    <extension
          point="org.eclipse.cdt.core.templates">
       <template
             filterPattern=".*g\+\+"
-            id="ilg.gnuarmeclipse.managedbuild.cross.templates.HelloARMWorld_CPP_Project"
-            location="$nl$/templates/projecttemplates/HelloWorld_CPP_Project/template.xml"
+            id="ilg.gnuarmeclipse.managedbuild.cross.templates.HelloWorld_EV3_CXX_Project"
+            location="$nl$/templates/projecttemplates/HelloWorld_EV3_CXX_Project/template.xml"
             projectType="org.eclipse.cdt.build.core.buildArtefactType.exe">
       </template>
       <template
             filterPattern=".*gcc"
-            id="ilg.gnuarmeclipse.managedbuild.cross.templates.HelloARMWorld_C_Project"
-            location="$nl$/templates/projecttemplates/HelloWorld_C_Project/template.xml"
+            id="ilg.gnuarmeclipse.managedbuild.cross.templates.HelloWorld_EV3_C_Project"
+            location="$nl$/templates/projecttemplates/HelloWorld_EV3_C_Project/template.xml"
             projectType="org.eclipse.cdt.build.core.buildArtefactType.exe">
       </template>
-       <template
+<!--      <template
             filterPattern=".*gcc"
             id="ilg.gnuarmeclipse.managedbuild.cross.templates.Full_Imports_EV3_C_Project"
             location="$nl$/templates/projecttemplates/Full_Imports_EV3_C_Project/template.xml"
@@ -4061,6 +4068,7 @@
             location="$nl$/templates/projecttemplates/HelloWorld_CM3_C_Project/template.xml"
             projectType="org.eclipse.cdt.build.core.buildArtefactType.exe">
       </template>
+-->
    </extension>
    <extension
          point="org.eclipse.cdt.core.LanguageSettingsProvider">
@@ -4088,16 +4096,6 @@
             parent="org.eclipse.cdt.managedbuilder.ui.properties.Page_BuildSettings"
             weight="012">
       </tab>
-   </extension>
-   <extension
-         point="org.eclipse.core.contenttype.contentTypes">
-         <content-type
-               base-type="org.eclipse.cdt.core.cSource"
-               file-extensions="lms,lmsasm"
-               id="de.hab.ev3plugin.lms.contenttype"
-               name="lms2012 Assembly File"
-               priority="high">
-		</content-type>
    </extension>
            
 </plugin>

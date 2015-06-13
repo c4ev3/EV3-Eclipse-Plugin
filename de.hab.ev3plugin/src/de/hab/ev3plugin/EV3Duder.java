@@ -129,7 +129,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 		return ev3duder.getStatus() == 0;
 	}
 	public boolean startFile(String remote) {
-		ProcessBuilder pb = new ProcessBuilder(path, "exec", remote); // TODO: not portable!
+		ProcessBuilder pb = new ProcessBuilder(path, "run", remote); // TODO: not portable!
 
 		ProcessBuilderWrapper ev3duder;
 		try {
