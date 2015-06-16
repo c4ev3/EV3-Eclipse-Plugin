@@ -1,8 +1,6 @@
-// most used paths: /media/card, /media/usb and ../prjs/BrkProg_SAVE for internal Memory
-define destdir '$(uploadDir)'
-define starter 'myapps/${projctName}Starter.rbf'
-define elfexec '../${projectName}.elf'
-// don't edit the above, unless ye knowin what ye doin
+// Most common paths: ${card}, ${brick} and ${usb}
+define starter '$(uploadDir)/myapps/${projectName}Starter.rbf'
+define elfexec '$(uploadDir)/${projectName}.elf'
 
 // stolen from http://www.robotnav.com/run-programs-without-network/
 vmthread MAIN
@@ -13,3 +11,8 @@ vmthread MAIN
     TIMER_WAIT(1000,Timer)
     TIMER_READY(Timer)
 }
+// Shorthand info:
+// ${projectName} 	= Current name of the project
+// ${card}   		= /media/card
+// ${usb}  			= /media/usb
+// ${brick} 		= /home/root/lms2012/prjs/BrkProg_SAVE

@@ -131,28 +131,43 @@ public class UploadAndRunOnEV3 implements IWorkbenchWindowActionDelegate {
 					remoteBinary = "/media/card/" + projectName + ".elf";
 				}else
 				{
-                        Hashtable<String, String> map = new Hashtable<String, String>();
-                        map.put("${projectName}", projectName);
-                        Preprocessor pp = new Preprocessor(localLauncher);
-                        String temp_starter = IO.removeExtension(pp.run(map).toString());
-                        //Assembler asm = new Assembler(temp_starter, uploader);
-                        (new Assembler(temp_starter, uploader)).run();
-                        //asm.run();
+                    Hashtable<String, String> map = new Hashtable<String, String>();
+                    map.put("${projectName}", projectName);
+                    map.put("${card}", "/media/card");
+                    map.put("${usb}", "/media/usb");
+                    map.put("${brick}", "/home/root/lms2012/prjs/BrkProg_SAVE");
+                    dialog.log("Preprocessing start.lms");
+                    Preprocessor pp = new Preprocessor(projectRoot + "/start.lms");
+                    String temp_starter = IO.removeExtension(pp.run(map).getAbsolutePath());
+                    dialog.log(" [DONE]\n");
+                    
+                    //Assembler asm = new Assembler(temp_starter, uploader);
+                    dialog.log("Generating rbf: " + temp_starter);
+                     System.out.println(temp_starter);
+                    (new Assembler(temp_starter, uploader.getParentFile())).run();
+                    //asm.run();
 
-                        IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
-                        // Now let's get upload params
-                        Hashtable<String, String> defines = pp.defines();
-                        remoteBinary = defines.get("destdir") + "/" + defines.get("elfexec");
-                        remoteLauncher = defines.get("destdir") + "/myapps/" + defines.get("starter") + ".rbf";
-
-				}	
+                    IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
+                    dialog.log(" [DONE]\n");
+                    
+                    // Now let's get upload params
+                    Hashtable<String, String> defines = pp.defines();
+                    remoteBinary = defines.get("elfexec");
+                    dialog.log("remoteBinary='" + remoteBinary + "'\n");
+                    remoteLauncher = defines.get("starter");
+                    dialog.log("remoteLauncher='" + remoteLauncher + "'\n"); 
+                    
+			}	
+				
+				/* left for illustratory purposes.
+				 * ev3duder up already creates directories
 				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
 				ev3duder.setSilent(true);
 				dialog.setProgress(40, "Attempting to create directory");
 				dialog.setProgress(40, "Attempting to create directory");
 				ev3duder.command("mkdir", IO.getParent(remoteLauncher));
 				ev3duder.setSilent(false);
-				
+				*/
 				dialog.setProgress(60, "Uploading ELF executable..");
 				dialog.setProgress(60, "Uploading ELF executable..");
 

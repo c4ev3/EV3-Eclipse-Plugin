@@ -21,7 +21,7 @@ public class IO {
 	    in.close();
 	    out.close();
 	}
-	public static String removeExtension(String s) {
+	public static String getNameWithoutExtension(String s) {
 
 	    String separator = System.getProperty("file.separator");
 	    String filename;
@@ -40,6 +40,16 @@ public class IO {
 	        return filename;
 
 	    return filename.substring(0, extensionIndex);
+	}
+	public static String removeExtension(String s) {
+
+
+	    // Remove the extension.
+	    int extensionIndex = s.lastIndexOf(".");
+	    if (extensionIndex == -1)
+	        return s;
+
+	    return s.substring(0, extensionIndex);
 	}
     public static String getParent(String dir) 
     { 

@@ -70,12 +70,15 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 		if (!silent)
 		{
 			for (String line : lines) {
-				Activator.log(line);
+				System.out.println(line);
 			}
 			if (ev3duder.getStatus() != 0)
 				MessageDialog.openError(shell,
 						"Error uploading (code=" + ev3duder.getStatus() + ")",
-						ev3duder.getInfos());
+						ev3duder.getInfos() != null ?
+							ev3duder.getInfos() :
+							"An unknown error occured... Sorry about that."
+						);
 		}
 		return ev3duder.getStatus() == 0;
 		// BufferedReader reader = new BufferedReader(
@@ -121,8 +124,11 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 			}
 			if (ev3duder.getStatus() != 0)
 				MessageDialog.openError(shell,
-					"Error in Uploader (code=" + ev3duder.getStatus() + ")",
-					ev3duder.getInfos());
+						"Error uploading (code=" + ev3duder.getStatus() + ")",
+						ev3duder.getInfos() != null ?
+							ev3duder.getInfos() :
+							"An unknown error occured... Sorry about that."
+						);
 		}
 		stdout = ev3duder.getInfos();
 		stderr = ev3duder.getErrors();
@@ -139,12 +145,17 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 			e.printStackTrace();
 			return false;
 		}
+		String[] lines = ev3duder.getErrors().split(
+				System.getProperty("line.separator"));
 		if (!silent)
 		{
 			if (ev3duder.getStatus() != 0)
 				MessageDialog.openError(shell,
-					"Error uploading (code=" + ev3duder.getStatus() + ")",
-					ev3duder.getInfos());
+						"Error uploading (code=" + ev3duder.getStatus() + ")",
+						ev3duder.getInfos() != null ?
+							ev3duder.getInfos() :
+							"An unknown error occured... Sorry about that."
+						);
 		}
 		return ev3duder.getStatus() == 0;
 	}

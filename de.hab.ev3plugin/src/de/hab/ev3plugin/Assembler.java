@@ -27,6 +27,12 @@ public class Assembler {
 		pb.directory(asm_path);
 		
 		Process p = pb.start();
+		try {
+			p.waitFor();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return p.exitValue();
 	}
 }	

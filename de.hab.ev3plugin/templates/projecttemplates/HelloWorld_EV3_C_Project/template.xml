@@ -20,19 +20,19 @@
 			description="%EV3Project.uploadDir.description"
 			type="select"
 			pattern=".*"
-			default="/media/card"
+			default="${card}"
 			hidden="false"
 			persist="true">
 			<item 
-			value="/media/card"
+			value="${card}"
 			label="SD-Card">
 			</item>
 			<item 
-			value="../prjs/BrkProg_SAVE"
-			label="Internal Storage">
+			value="${brick}"
+			label="Brick Internal Storage">
 			</item>
 			<item 
-			value="/media/usb"
+			value="${usb}"
 			label="Usb Stick">
 			</item>
 		</property>

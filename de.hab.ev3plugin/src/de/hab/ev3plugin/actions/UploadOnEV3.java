@@ -133,18 +133,27 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 				{
                         Hashtable<String, String> map = new Hashtable<String, String>();
                         map.put("${projectName}", projectName);
-                        Preprocessor pp = new Preprocessor(localLauncher);
-                        String temp_starter = IO.removeExtension(pp.run(map).toString());
+                        dialog.log("Preprocessing start.lms");
+                        Preprocessor pp = new Preprocessor(projectRoot + "/start.lms");
+                        String temp_starter = IO.removeExtension(pp.run(map).getAbsolutePath());
+                        dialog.log(" [DONE]\n");
+                        
                         //Assembler asm = new Assembler(temp_starter, uploader);
-                        (new Assembler(temp_starter, uploader)).run();
+                        dialog.log("Generating rbf: " + localLauncher);
+                         
+                        (new Assembler(temp_starter, uploader.getParentFile())).run();
                         //asm.run();
 
                         IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
+                        dialog.log(" [DONE]\n");
+                        
                         // Now let's get upload params
                         Hashtable<String, String> defines = pp.defines();
-                        remoteBinary = defines.get("destdir") + "/" + defines.get("elfexec");
-                        remoteLauncher = defines.get("destdir") + "/myapps/" + defines.get("starter") + ".rbf";
-
+                        remoteBinary = defines.get("destdir") + "/" + IO.getParent(defines.get("starter")) + "/" + defines.get("elfexec");
+                        dialog.log("remoteBinary='" + remoteBinary + "'\n");
+                        remoteLauncher = defines.get("destdir") + "/" + defines.get("starter");
+                        dialog.log("remoteLauncher='" + remoteLauncher + "'\n"); 
+                        
 				}	
 				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
 				ev3duder.setSilent(true);
