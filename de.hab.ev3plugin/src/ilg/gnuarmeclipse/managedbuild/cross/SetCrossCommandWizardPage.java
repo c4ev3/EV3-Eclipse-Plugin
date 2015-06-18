@@ -150,8 +150,8 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		m_pathTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
 		String crossCommandPath = SharedStorage
 				.getToolchainPath(m_selectedToolchainName);
-		if (crossCommandPath == null || crossCommandPath.isEmpty())
-			m_pathTxt.setText("C:\\CSLite\\bin\\");
+		if (crossCommandPath == null)
+			m_pathTxt.setText(""); // Just look in the PATH environement variable
 		else	
 			m_pathTxt.setText(crossCommandPath);
 		updatePathProperty();
@@ -189,8 +189,12 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		uploaderLabel.setText(Messages.SetCrossCommandWizardPage_uploader);
 
 		m_uploaderTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
-		String crossCommandUploader = "C:\\ev3\\uploader"; //TODO: checkk for windows
-		m_uploaderTxt.setText(crossCommandUploader);
+		String crossCommandUploader = SharedStorage
+				.getToolchainUploader(m_selectedToolchainName);
+		if (crossCommandUploader == null)
+			m_uploaderTxt.setText("C:\\ev3\\uploader"); // Todo: check for non-windows
+		else	
+			m_uploaderTxt.setText(crossCommandUploader);
 		updateUploaderProperty();
 
 		layoutData = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);

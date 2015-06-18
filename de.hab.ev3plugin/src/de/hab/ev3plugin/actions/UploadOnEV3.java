@@ -41,7 +41,32 @@ import de.hab.ev3plugin.util.IO;
 
 public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 
-	private IWorkbenchWindow window;
+	protected IWorkbenchWindow window;
+	protected String projectRoot;
+	protected String projectName;
+	protected IManagedBuildInfo buildInfo;
+	protected String binaryDir;
+	protected String workspaceRoot; // get location of workspace
+
+	protected String localBinary;
+		String remoteBinary;
+		protected String localLauncher;
+	protected String remoteLauncher;
+	protected boolean windows;
+	protected String ev3duder_binname;		
+	protected Ev3Duder ev3duder;
+	protected Shell shell;
+	protected Progress dialog;
+
+	public void postUpload()
+	{
+		
+		dialog.setProgress(90, "Starting ELF executable..");
+		dialog.setProgress(90, "Starting ELF executable...");
+		
+		ev3duder.startFile(remoteLauncher);
+		// dialog.setProgress(99);
+	}
 
 	@Override
 	public void run(IAction action) {
@@ -55,21 +80,23 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 				return;
 			}
 			
-			String projectRoot = proj.getLocation().toString();
-			String projectName = proj.getName();
+			projectRoot = proj.getLocation().toString();
+			projectName = proj.getName();
+			buildInfo = ManagedBuildManager.getBuildInfo(proj);
 			
-			String workspaceRoot = ResourcesPlugin.getWorkspace().getRoot()
+			binaryDir = buildInfo.getDefaultConfiguration().getName();
+			workspaceRoot = ResourcesPlugin.getWorkspace().getRoot()
 					.getLocation().toString(); // get location of workspace
 
-			String localBinary = projectRoot + "/debug/" + projectName + ".elf";
-			String remoteBinary = "/media/card/" + projectName + ".elf";
-			String localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
-			String remoteLauncher = "/media/card/myapps/" + projectName + ".rbf";
-			boolean windows = System.getProperty("os.name").startsWith("Windows");
-			String ev3duder_binname = windows ? "ev3duder.exe" : "ev3duder";
-			Shell shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
+			localBinary = projectRoot + "/" + binaryDir + "/" + projectName + ".elf";
+				String remoteBinary = "/media/card/" + projectName + ".elf";
+			localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
+			remoteLauncher = "/media/card/myapps/" + projectName + ".rbf";
+			windows = System.getProperty("os.name").startsWith("Windows");
+			ev3duder_binname = windows ? "ev3duder.exe" : "ev3duder";
+			shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
 					.getWorkbench().getActiveWorkbenchWindow().getShell();
-			Progress dialog = new Progress(shell);
+			dialog = new Progress(shell);
 			boolean nowait = true; // TODO: add to .lms define nowait
 			// Display display = Display.getDefault();
 			// Progress dialog = new Progress(new Shell(display, SWT.MODELESS));
@@ -79,10 +106,6 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			if (!proj.exists())
 				return; //FIXME: needed?!
 
-			IManagedBuildInfo buildInfo = ManagedBuildManager.getBuildInfo(proj);
-			if (buildInfo == null)
-				return;
-			
 			IConfiguration[] configs = buildInfo.getManagedProject()
 					.getConfigurations();
 	
@@ -92,7 +115,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			String path = ProjectStorage.getValue(configs[0], "uploader");
 			File uploader = null;
 			File assembler = null;
-			Ev3Duder ev3duder = null;	
+			ev3duder = null;	
 			
 			if (path != null) {
 				uploader = new File(path, ev3duder_binname); // externalise this!
@@ -130,37 +153,43 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 					remoteBinary = "/media/card/" + projectName + ".elf";
 				}else
 				{
-                        Hashtable<String, String> map = new Hashtable<String, String>();
-                        map.put("${projectName}", projectName);
-                        dialog.log("Preprocessing start.lms");
-                        Preprocessor pp = new Preprocessor(projectRoot + "/start.lms");
-                        String temp_starter = IO.removeExtension(pp.run(map).getAbsolutePath());
-                        dialog.log(" [DONE]\n");
-                        
-                        //Assembler asm = new Assembler(temp_starter, uploader);
-                        dialog.log("Generating rbf: " + localLauncher);
-                         
-                        (new Assembler(temp_starter, uploader.getParentFile())).run();
-                        //asm.run();
+                    Hashtable<String, String> map = new Hashtable<String, String>();
+                    map.put("${projectName}", projectName);
+                    map.put("${card}", "/media/card");
+                    map.put("${usb}", "/media/usb");
+                    map.put("${brick}", "/home/root/lms2012/prjs/BrkProg_SAVE");
+                    dialog.log("Preprocessing start.lms");
+                    Preprocessor pp = new Preprocessor(projectRoot + "/start.lms");
+                    String temp_starter = IO.removeExtension(pp.run(map).getAbsolutePath());
+                    dialog.log(" [DONE]\n");
+                    
+                    //Assembler asm = new Assembler(temp_starter, uploader);
+                    dialog.log("Generating rbf: " + temp_starter);
+                    System.out.println("temp_starter=" + temp_starter);
+                    (new Assembler(temp_starter, uploader.getParentFile())).run();
+                    //asm.run();
 
-                        IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
-                        dialog.log(" [DONE]\n");
-                        
-                        // Now let's get upload params
-                        Hashtable<String, String> defines = pp.defines();
-                        remoteBinary = defines.get("destdir") + "/" + IO.getParent(defines.get("starter")) + "/" + defines.get("elfexec");
-                        dialog.log("remoteBinary='" + remoteBinary + "'\n");
-                        remoteLauncher = defines.get("destdir") + "/" + defines.get("starter");
-                        dialog.log("remoteLauncher='" + remoteLauncher + "'\n"); 
-                        
-				}	
+                    IO.copy(new File(temp_starter + ".rbf"), new File(localLauncher));
+                    dialog.log(" [DONE]\n");
+                    
+                    // Now let's get upload params
+                    Hashtable<String, String> defines = pp.defines();
+                    remoteBinary = defines.get("elfexec");
+                    dialog.log("remoteBinary='" + remoteBinary + "'\n");
+                    remoteLauncher = defines.get("starter");
+                    dialog.log("remoteLauncher='" + remoteLauncher + "'\n"); 
+                    
+			}	
+				
+				/* left for illustratory purposes.
+				 * ev3duder up already creates directories
 				// attempt creation of a /myapps/ directory, if it's already there, no harm done.
 				ev3duder.setSilent(true);
 				dialog.setProgress(40, "Attempting to create directory");
 				dialog.setProgress(40, "Attempting to create directory");
 				ev3duder.command("mkdir", IO.getParent(remoteLauncher));
 				ev3duder.setSilent(false);
-				
+				*/
 				dialog.setProgress(60, "Uploading ELF executable..");
 				dialog.setProgress(60, "Uploading ELF executable..");
 
@@ -179,13 +208,8 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 							" no idea. sorry ."); // change warnings to write to log!
 					break;
 				}
-					if (!nowait) Thread.sleep(300);
 
-					dialog.setProgress(90, "finalizing..");
-					dialog.setProgress(90, "finalizing..");
-					// dialog.setProgress(99);
-				
-				
+				postUpload(); // OO Baby steps
 }while(false); // a legitimate use for goto IMHO
 if (ev3duder == null)
 {

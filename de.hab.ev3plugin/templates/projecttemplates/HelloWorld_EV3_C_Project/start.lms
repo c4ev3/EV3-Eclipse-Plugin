@@ -1,5 +1,5 @@
 // Most common paths: ${card}, ${brick} and ${usb}
-define starter '$(uploadDir)/myapps/${projectName}Starter.rbf'
+define starter '$(uploadDir)/myapps/${projectName}.rbf'
 define elfexec '$(uploadDir)/${projectName}.elf'
 
 // stolen from http://www.robotnav.com/run-programs-without-network/
@@ -11,7 +11,7 @@ vmthread MAIN
     TIMER_WAIT(1000,Timer)
     TIMER_READY(Timer)
 }
-// Shorthand info:
+// $horthand info:
 // ${projectName} 	= Current name of the project
 // ${card}   		= /media/card
 // ${usb}  			= /media/usb
