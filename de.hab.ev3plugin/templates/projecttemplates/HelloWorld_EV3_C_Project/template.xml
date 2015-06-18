@@ -71,6 +71,17 @@
 			</element>
 		</complex-array>
 	</process>
+	<process type="org.eclipse.cdt.managedbuilder.core.SetMBSBooleanOptionValue">
+			<simple name="projectName" value="$(projectName)" />
+			<complex-array name="resourcePaths">
+				<element>
+					<simple name="id"
+						value="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.strip" />
+					<simple name="value" value="true" />
+					<simple name="path" value="" />
+				</element>
+			</complex-array>
+	</process>
  		<process type="org.eclipse.cdt.managedbuilder.core.AppendToMBSStringListOptionValues">
 		<simple name="projectName" value="$(projectName)" />		
 		<complex-array name="resourcePaths">
@@ -78,6 +89,7 @@
 				<simple name="id" value="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.libs" />
 				<simple-array name="values">
 					<element value="ev3api" />
+					<element value="m" />
 				</simple-array>
 				<simple name="path" value="" />
 			</element> 

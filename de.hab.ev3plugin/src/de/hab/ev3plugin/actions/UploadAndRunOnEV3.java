@@ -56,12 +56,9 @@ public class UploadAndRunOnEV3 implements IWorkbenchWindowActionDelegate {
 			}
 			
 			String projectRoot = proj.getLocation().toString();
+			String buildDir = ManagedBuildManager.getBuildInfo(proj).getDefaultConfiguration().toString(); 
 			String projectName = proj.getName();
-			
-			String workspaceRoot = ResourcesPlugin.getWorkspace().getRoot()
-					.getLocation().toString(); // get location of workspace
-
-			String localBinary = projectRoot + "/debug/" + projectName + ".elf";
+			String localBinary = projectRoot + "/"+ buildDir + "/" + projectName + ".elf";
 			String remoteBinary = "/media/card/" + projectName + ".elf";
 			String localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
 			String remoteLauncher = "/media/card/myapps/" + projectName

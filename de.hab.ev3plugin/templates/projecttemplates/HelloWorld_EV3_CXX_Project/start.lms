@@ -11,7 +11,7 @@ vmthread MAIN
     TIMER_WAIT(1000,Timer)
     TIMER_READY(Timer)
 }
-// $horthand info:
+// Shorthand info:
 // ${projectName} 	= Current name of the project
 // ${card}   		= /media/card
 // ${usb}  			= /media/usb
