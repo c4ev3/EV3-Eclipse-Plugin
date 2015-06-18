@@ -64,8 +64,7 @@ public class UploadAndRunOnEV3 implements IWorkbenchWindowActionDelegate {
 			String localBinary = projectRoot + "/debug/" + projectName + ".elf";
 			String remoteBinary = "/media/card/" + projectName + ".elf";
 			String localLauncher = projectRoot + "/myapps/" + projectName + ".rbf";
-			String remoteLauncher = "/media/card/myapps/" + projectName
-					+ "Starter.rbf";
+			String remoteLauncher = "/media/card/myapps/" + projectName + ".rbf";
 			boolean windows = System.getProperty("os.name").startsWith("Windows");
 			String ev3duder_binname = windows ? "ev3duder.exe" : "ev3duder";
 			Shell shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
