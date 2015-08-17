@@ -1,3 +1,6 @@
+/**
+ * General utilites concerning File IO
+ */
 package de.hab.ev3plugin.util;
 
 import java.io.File;
@@ -50,6 +53,13 @@ public class IO {
 	        return s;
 
 	    return s.substring(0, extensionIndex);
+	}
+	public static String getExtension(String s) {
+		int extensionIndex = s.lastIndexOf(".");
+		if (extensionIndex == -1)
+			return "";
+		
+		return s.substring(extensionIndex + 1);
 	}
     public static String getParent(String dir) 
     { 

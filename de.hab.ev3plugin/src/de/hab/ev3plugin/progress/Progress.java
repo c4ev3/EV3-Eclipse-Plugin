@@ -1,21 +1,27 @@
+/**
+ * Progress Windows during file upload
+ */
 package de.hab.ev3plugin.progress;
+
+import ilg.gnuarmeclipse.managedbuild.cross.Activator;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 public class Progress extends TitleAreaDialog {
 	private Text text;
@@ -38,7 +44,9 @@ public class Progress extends TitleAreaDialog {
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		setMessage("Please hold.");
-		setTitleImage(SWTResourceManager.getImage("icons/EV3_Icon.ico"));
+		setTitleImage(AbstractUIPlugin
+				.imageDescriptorFromPlugin(Activator.PLUGIN_ID,
+						"icons/EV3_Icon_small.png").createImage());
 		setTitle("Uploading to EV3...");
 		setDialogHelpAvailable(false);
 		setHelpAvailable(false);

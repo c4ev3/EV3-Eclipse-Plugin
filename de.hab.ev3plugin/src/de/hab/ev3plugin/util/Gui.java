@@ -1,3 +1,6 @@
+/**
+ * general utilties concerning GUI
+ */
 package de.hab.ev3plugin.util;
 
 import ilg.gnuarmeclipse.managedbuild.cross.Activator;
@@ -9,7 +12,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbench;

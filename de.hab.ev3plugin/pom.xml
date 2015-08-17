@@ -3,9 +3,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   
-  <groupId>ilg.gnuarmeclipse</groupId>
-  <artifactId>ilg.gnuarmeclipse.managedbuild.cross</artifactId>
-  <version>1.7.2-SNAPSHOT</version>
+  <groupId>de.h-ab</groupId>
+  <artifactId>de.h-ab.ev3plugin</artifactId>
+  <version>0.3.0</version>
   <packaging>eclipse-plugin</packaging>
   
   <parent>
@@ -15,6 +15,11 @@
   	<relativePath>../pom.xml</relativePath>
   </parent>
   
-  <name>GNU ARM Eclipse managed build code</name>
-  <url>http://gnuarmeclipse.livius.net</url>
+  <description>Eclipse plugin to streamline EV3 uploading/downloading/programming and debugging.
+
+Based on:
+GNU ARM Eclipse managed build code
+(http://gnuarmeclipse.livius.net)</description>
+  <name>Eclipse EV3-Plugin</name>
+  <url>http://a3f.at/ev3</url>
 </project>

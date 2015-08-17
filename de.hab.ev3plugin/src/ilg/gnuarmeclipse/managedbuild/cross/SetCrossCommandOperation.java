@@ -12,11 +12,9 @@
  *******************************************************************************/
 
 package ilg.gnuarmeclipse.managedbuild.cross;
-import de.hab.ev3plugin.util.Gui;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.cdt.build.core.scannerconfig.ScannerConfigBuilder;
-import org.eclipse.cdt.managedbuilder.buildproperties.IBuildPropertyValue;
 import org.eclipse.cdt.managedbuilder.core.BuildException;
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;

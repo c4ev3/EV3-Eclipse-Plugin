@@ -1,37 +1,26 @@
+/**
+ * \file UploadOnEV3.java
+ * Callback for the menu entry that uploads to ev3
+ */
 package de.hab.ev3plugin.actions;
 
-import ilg.gnuarmeclipse.managedbuild.cross.Option;
 import ilg.gnuarmeclipse.managedbuild.cross.ProjectStorage;
-import ilg.gnuarmeclipse.managedbuild.cross.SetCrossCommandWizardPage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Hashtable;
 
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
 import org.eclipse.cdt.managedbuilder.core.ManagedBuildManager;
-import org.eclipse.cdt.managedbuilder.ui.wizards.MBSCustomPageManager;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import de.hab.ev3plugin.Activator;
 import de.hab.ev3plugin.Assembler;
 import de.hab.ev3plugin.Ev3Duder;
 import de.hab.ev3plugin.Preprocessor;
@@ -60,12 +49,6 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 
 	public void postUpload()
 	{
-		
-		dialog.setProgress(90, "Starting ELF executable..");
-		dialog.setProgress(90, "Starting ELF executable...");
-		
-		ev3duder.startFile(remoteLauncher);
-		// dialog.setProgress(99);
 	}
 
 	@Override

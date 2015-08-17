@@ -1,17 +1,14 @@
+/**
+ * Wrapper class for squeezing the Ev3File class into a ITreeContentProvider
+ * An insteresting use case would be adding drives of the local system here
+ * I did that via tuples but then I found all the casting to harm the readability too much
+ */
 package de.hab.ev3plugin.filebrowser.provider;
 
-import java.io.File;
-
-
-
-
-
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 import de.hab.ev3plugin.filebrowser.Ev3File;
-import de.hab.ev3plugin.util.Pair;
 
 public class FileContentProvider implements ITreeContentProvider {
 

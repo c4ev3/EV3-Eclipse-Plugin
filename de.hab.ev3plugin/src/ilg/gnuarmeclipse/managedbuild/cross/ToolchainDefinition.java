@@ -222,12 +222,11 @@ public class ToolchainDefinition {
 		// 4
 		ms_list.add(new ToolchainDefinition("Yagarto, Summon, etc. ARM EABI",
 				"arm-none-eabi-"));
-
+*/
 		// 5
-		ms_list.add(new ToolchainDefinition("Linaro ARMv7 Linux GNU EABI HF",
-				"arm-linux-gnueabihf-"));
-
-		// 6
+		ms_list.add(new ToolchainDefinition("Linaro ARM Linux GNU EABI",
+				"arm-linux-gnueabi-"));
+/*
 		ms_list.add(new ToolchainDefinition(
 				"Linaro ARMv7 Big-Endian Linux GNU EABI HF",
 				"armeb-linux-gnueabihf-"));
