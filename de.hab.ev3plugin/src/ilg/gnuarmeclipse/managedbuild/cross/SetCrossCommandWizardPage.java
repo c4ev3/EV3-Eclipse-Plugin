@@ -34,8 +34,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
-import de.hab.ev3plugin.util.Gui;
-
 /**
  * A wizard page that allows the user to specify the prefix and the path of a
  * Cross GCC command. The values are passed to {@link SetCrossCommandOperation}

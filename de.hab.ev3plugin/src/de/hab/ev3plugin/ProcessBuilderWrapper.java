@@ -8,7 +8,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 /**
- * LGPL
+ * Ease access to ev3duder's stdin and stdout
+ * @copyright LGPL.https://thilosdevblog.wordpress.com/2011/11/21/proper-handling-of-the-processbuilder/ 
  */
 public class ProcessBuilderWrapper {
 	private StringWriter infos;

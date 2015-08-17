@@ -1,20 +1,22 @@
+/**
+ * Virtual file system for the ev3
+ */
 package de.hab.ev3plugin.filebrowser;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import de.hab.ev3plugin.Activator;
 import de.hab.ev3plugin.Ev3Duder;
 import de.hab.ev3plugin.util.IO;
-import de.hab.ev3plugin.util.Pair;
 
 public class Ev3File {
 	private static final Pattern dirpat = Pattern.compile("^(.*)/$");
 	private static final Pattern filepat = Pattern.compile("^([A-F0-9]{32}) ([A-F0-9]{8}) (.*)$");
+	public enum Kind { FILE, DIRECTORY, DRIVE, RESTRICTED, REFRESH };
 
 	private String path = null;
 	private Ev3Duder ev3;
@@ -36,6 +38,7 @@ public class Ev3File {
 		this.size = size;
 		this.restricted = !path.isEmpty() && (path.charAt(0) == '-' || Arrays.asList(restricted_paths).contains(path));
 	}
+	@SuppressWarnings("unused")
 	private Ev3File(Ev3File clone)
 	{
 		this.ev3 = clone.ev3;
@@ -53,6 +56,22 @@ public class Ev3File {
 	public boolean isRestricted()
 	{
 		return restricted;
+	}
+	static public Kind getKind(Ev3File file)
+	{
+		if (file.isRestricted()) 		
+		{
+			if (file.getName().equals("- click to refresh"))
+				return Kind.REFRESH;
+			else
+				return Kind.RESTRICTED;
+		}
+		else if (file.getParent() == null) 	
+			return Kind.DRIVE;
+		else if (file.isDirectory())	
+			return Kind.DIRECTORY;
+		else
+			return Kind.FILE;
 	}
 	public Ev3File[] listFiles() {
 		if (this.path.isEmpty())
@@ -130,6 +149,7 @@ public class Ev3File {
 					return IO.getParent(path);
 			return null;
 	}
+
 	public Ev3File getParentFile()
 	{
 		return new Ev3File(ev3, getParent(), null, 0);
@@ -137,5 +157,17 @@ public class Ev3File {
 	public boolean isDirectory()
 	{
 		return hash == null && !restricted;
+	}
+	public String getHash()
+	{
+		return hash;
+	}
+	public String getFullPath()
+	{
+		return path;
+	}
+	public int getSize()
+	{
+		return size;
 	}
 }

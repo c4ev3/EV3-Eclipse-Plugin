@@ -7,8 +7,6 @@ import org.eclipse.cdt.managedbuilder.core.IHoldsOptions;
 import org.eclipse.cdt.managedbuilder.core.IOption;
 import org.eclipse.cdt.managedbuilder.core.ManagedOptionValueHandler;
 
-import de.hab.ev3plugin.util.Gui;
-
 public class UploaderManagedOptionValueHandler extends ManagedOptionValueHandler {
 
 	@Override

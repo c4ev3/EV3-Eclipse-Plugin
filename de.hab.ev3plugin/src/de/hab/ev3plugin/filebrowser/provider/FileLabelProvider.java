@@ -1,15 +1,16 @@
+/**
+ * Provides the icons for the different file system entries
+ * 
+ */
 package de.hab.ev3plugin.filebrowser.provider;
 
 import ilg.gnuarmeclipse.managedbuild.cross.Activator;
-
-import java.io.File;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 import de.hab.ev3plugin.filebrowser.Ev3File;
-import de.hab.ev3plugin.util.Pair;
 
 public class FileLabelProvider extends LabelProvider {
 private static final Image folderImage = AbstractUIPlugin
@@ -31,18 +32,15 @@ private static final Image shutImage = AbstractUIPlugin
 
 @Override
 public Image getImage(Object element) {
-		Ev3File file = (Ev3File) element;
-		
-        if (file.isRestricted()) 		
-        	if (file.getName().equals(
-        			"- click to refresh"))
-        								return refreshImage;
-        	else
-        								return shutImage;
-        if (file.getParent() == null) 	return driveImage;
-        if (file.isDirectory())			return folderImage;
-        // gotta be a plain old file then
-        return fileImage;
+		Ev3File.Kind kind = Ev3File.getKind((Ev3File) element);
+        switch(kind)
+        {
+        case REFRESH: 	   return refreshImage;
+        case RESTRICTED:   return shutImage;
+        case DRIVE:		   return driveImage;
+        case DIRECTORY:	   return folderImage;
+        case FILE:default: return fileImage;
+        }
 }
 
 @Override

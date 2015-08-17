@@ -9,12 +9,11 @@
 
 int main(void)
 {
-	InitEV3();
-
 	//TODO Place here your variables
 
 
 	//TODO Place here your code
+	InitEV3();
 	LcdPrintf(1, "Hello World!\n");
 	Wait(SEC_2);
 

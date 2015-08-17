@@ -16,8 +16,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 
-import de.hab.ev3plugin.util.Gui;
-
 public class ProjectStorage {
 
 	private static String PATH_ID = "path";

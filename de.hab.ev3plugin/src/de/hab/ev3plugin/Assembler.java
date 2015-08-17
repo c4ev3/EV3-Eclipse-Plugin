@@ -1,20 +1,23 @@
+/**
+ * Wrapper for the LEGO bytecode (.rbf) assembler (assembler.jar)
+ * \author Ahmad Fatoum
+ * \copright (c) 2015 Ahmad Fatoum. Code available under terms of the EPL
+ */
 package de.hab.ev3plugin;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 
 
 public class Assembler {
 	private String file_name;
 	private File asm_path;
 	private final String java = "java"; // if java is not in path, bad luck
+	/**
+	 * Constructor
+	 * @param file_name name of file to assembler
+	 * @param asm_path  path to assembler.jar
+	 */
 	public Assembler(String file_name, File asm_path)
 	{
 		this.asm_path = asm_path;

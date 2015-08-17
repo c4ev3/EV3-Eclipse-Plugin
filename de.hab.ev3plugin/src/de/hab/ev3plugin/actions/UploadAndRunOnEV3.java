@@ -1,3 +1,7 @@
+/**
+ * \file UploadAndRunOnEV3.java
+ * My sorry attempt at OOP
+ */
 package de.hab.ev3plugin.actions;
 
 public class UploadAndRunOnEV3 extends UploadOnEV3 {

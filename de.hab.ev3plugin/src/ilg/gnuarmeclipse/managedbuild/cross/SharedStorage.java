@@ -14,8 +14,6 @@ package ilg.gnuarmeclipse.managedbuild.cross;
 
 import org.eclipse.cdt.core.templateengine.SharedDefaults;
 
-import de.hab.ev3plugin.util.Gui;
-
 public class SharedStorage {
 
 	// Note: The shared defaults keys don't have "cross" in them because we want
