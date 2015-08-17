@@ -45,7 +45,7 @@ public class Preprocessor {
                 		String val = map.get(m.group(1)); // get replacement string from map
                 		if (val == null) val = defs.get(m.group(1)); // else get it from previous defines
                 		if (val == null) val = ""; // else leave it empty
-                		System.out.println("result[" + m.group(1) + "]=" + val + "\n"); //TODO: think about debug output
+                		//System.out.println("result[" + m.group(1) + "]=" + val + "\n"); //TODO: think about debug output
                 		line = m.replaceFirst(val);
                 		m = vars.matcher(line);
                 }

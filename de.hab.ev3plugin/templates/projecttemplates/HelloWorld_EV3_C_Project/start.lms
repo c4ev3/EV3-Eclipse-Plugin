@@ -1,5 +1,5 @@
 // Most common paths: ${card}, ${brick} and ${usb}
-define starter '$(uploadDir)/myapps/${projectName}Starter.rbf'
+define starter '$(uploadDir)/myapps/${projectName}.rbf'
 define elfexec '$(uploadDir)/${projectName}.elf'
 
 // stolen from http://www.robotnav.com/run-programs-without-network/
