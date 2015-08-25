@@ -34,14 +34,16 @@
          <menu
                id="ev3menu"
                label="EV3">
-            <separator
-                  name="ev3group">
-            </separator>
-            
-            <separator
-                  name="ev3group2">
-            </separator>
+            <separator name="ev3group"> </separator>
+            <separator name="ev3group2"> </separator>
+            <separator name="ev3group3"> </separator>
          </menu>
+            <menu
+               id="connsettings"
+               path="ev3menu/ev3group3"
+               label="Connection settings">
+            <separator name="ev3group"> </separator>
+         	</menu>
          <action
                class="de.hab.ev3plugin.actions.UploadOnEV3"
                icon="icons/EV3_Icon.gif"
@@ -64,12 +66,22 @@
         
          <action
                class="de.hab.ev3plugin.actions.KillChildrenOfVM"
-               icon="icons/KillAll.png"
+               icon="icons/KillAll2.gif"
                id="de.hab.ev3plugin.action"
                label="Kill running EV3 apps"
                menubarPath="ev3menu/ev3group2"
                style="push"
                tooltip="Kill any processes spawned by the EV3's VM">
+         </action>
+         
+         <action
+               class="de.hab.ev3plugin.actions.SetupEV3WLanConnection"
+               icon="icons/search.gif"
+               id="de.hab.ev3plugin.action"
+               label="EV3 WLan Connection"
+               menubarPath="ev3menu/connsettings/ev3group"
+               style="toggle"
+               tooltip="Pairs with EV3 via Serial or IP address">
          </action>
          
          <!--<action

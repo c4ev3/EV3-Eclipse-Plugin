@@ -14,6 +14,9 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	private String stderr;
 
 	private String path;
+	private String connectionType = "--usb --bt";
+	private String device = "";
+
 	private Shell shell;
 	private boolean silent = false;
 	/**
@@ -39,7 +42,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 																		// stderr
 																		// is
 																		// written
-		ProcessBuilder pb = new ProcessBuilder(path, "up", local, remote); // TODO: not portable!
+		ProcessBuilder pb = new ProcessBuilder(path, connectionType, device, "up", local, remote); // TODO: not portable!
 
 
 		/*
@@ -88,10 +91,12 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	}
 	public boolean command(String command, String...args)
 	{
-		String cmdline[] = new String[args.length + 2];
+		String cmdline[] = new String[args.length + 4];
 		cmdline[0] = path;
-		cmdline[1] = command;
-		System.arraycopy(args, 0, cmdline, 2, args.length);
+		cmdline[1] = connectionType;
+		cmdline[2] = device;
+		cmdline[3] = command;
+		System.arraycopy(args, 0, cmdline, 4, args.length);
 		ProcessBuilder pb = new ProcessBuilder(cmdline); // TODO: not portable!
 
 
@@ -121,7 +126,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 		return ev3duder.getStatus() == 0;
 	}
 	public boolean startFile(String remote) {
-		ProcessBuilder pb = new ProcessBuilder(path, "run", remote); // TODO: not portable!
+		ProcessBuilder pb = new ProcessBuilder(path, connectionType, device, "run", remote); // TODO: not portable!
 
 		ProcessBuilderWrapper ev3duder;
 		try {
