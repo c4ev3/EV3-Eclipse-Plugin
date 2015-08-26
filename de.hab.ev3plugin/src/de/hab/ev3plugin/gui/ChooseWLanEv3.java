@@ -1,4 +1,4 @@
-package de.hab.ev3plugin.choose;
+package de.hab.ev3plugin.gui;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
-public class ChooseEv3 extends TitleAreaDialog {
+public class ChooseWLanEv3 extends TitleAreaDialog {
 	
 	public interface Handler {
 		boolean isValid(String id);
@@ -31,7 +31,7 @@ public class ChooseEv3 extends TitleAreaDialog {
 	 * Create the dialog.
 	 * @param parentShell
 	 */
-	public ChooseEv3(Shell parentShell) {
+	public ChooseWLanEv3(Shell parentShell) {
 		super(parentShell);
 	}
 	public void setHandler(Handler handler) { this.handler = handler; }

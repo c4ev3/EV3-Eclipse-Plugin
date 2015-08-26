@@ -1,7 +1,7 @@
 /**
  * Progress Windows during file upload
  */
-package de.hab.ev3plugin.progress;
+package de.hab.ev3plugin.gui;
 
 import ilg.gnuarmeclipse.managedbuild.cross.Activator;
 
@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-public class Progress extends TitleAreaDialog {
+public class UploadProgress extends TitleAreaDialog {
 	private Text text;
 	private ProgressBar progressBar;
 
@@ -32,7 +32,7 @@ public class Progress extends TitleAreaDialog {
 	 * 
 	 * @param parentShell
 	 */
-	public Progress(Shell parentShell) {
+	public UploadProgress(Shell parentShell) {
 		super(parentShell);
 	}
 

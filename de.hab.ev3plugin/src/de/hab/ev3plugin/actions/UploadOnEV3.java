@@ -24,7 +24,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import de.hab.ev3plugin.Assembler;
 import de.hab.ev3plugin.Ev3Duder;
 import de.hab.ev3plugin.Preprocessor;
-import de.hab.ev3plugin.progress.Progress;
+import de.hab.ev3plugin.gui.UploadProgress;
 import de.hab.ev3plugin.util.Gui;
 import de.hab.ev3plugin.util.IO;
 
@@ -45,7 +45,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 	protected String ev3duder_binname;		
 	protected Ev3Duder ev3duder;
 	protected Shell shell;
-	protected Progress dialog;
+	protected UploadProgress dialog;
 
 	public void postUpload()
 	{
@@ -79,7 +79,7 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 			ev3duder_binname = windows ? "ev3duder.exe" : "ev3duder";
 			shell = ilg.gnuarmeclipse.managedbuild.cross.Activator.getDefault()
 					.getWorkbench().getActiveWorkbenchWindow().getShell();
-			dialog = new Progress(shell);
+			dialog = new UploadProgress(shell);
 			boolean nowait = true; // TODO: add to .lms define nowait
 			// Display display = Display.getDefault();
 			// Progress dialog = new Progress(new Shell(display, SWT.MODELESS));
@@ -176,12 +176,8 @@ public class UploadOnEV3 implements IWorkbenchWindowActionDelegate {
 				dialog.setProgress(60, "Uploading ELF executable..");
 				dialog.setProgress(60, "Uploading ELF executable..");
 
-				if (!ev3duder.transferFile(localBinary, remoteBinary)) {
-					MessageDialog.openWarning(shell, "Uploading binary failed",
-							" no idea. sorry ."); // change warnings to write to log!
-
+				if (!ev3duder.transferFile(localBinary, remoteBinary))
 					break;
-				}
 				if (!nowait) Thread.sleep(300);
 
 				dialog.setProgress(80, "Uploading starter file..");

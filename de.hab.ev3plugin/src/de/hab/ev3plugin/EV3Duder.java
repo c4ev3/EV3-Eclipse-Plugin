@@ -2,7 +2,7 @@
  * Wrapper for the ev3duder command line utility
  * \see http://github.com/a3f/ev3duder
  * \author Ahmad Fatoum
- * \copright (c) 2015 Ahmad Fatoum. Code available under terms of the EPL
+ * \copyright (c) 2015 Ahmad Fatoum. Code available under terms of the EPL
  */
 package de.hab.ev3plugin;
 
@@ -14,8 +14,10 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	private String stderr;
 
 	private String path;
-	private String connectionType = "--usb --bt";
-	private String device = "";
+	static public String usb = "--usb=";
+	static public String serial = "--serial=";
+	static public String tcp = "--nop";
+	static final public String timeout = "-t=6";
 
 	private Shell shell;
 	private boolean silent = false;
@@ -42,7 +44,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 																		// stderr
 																		// is
 																		// written
-		ProcessBuilder pb = new ProcessBuilder(path, connectionType, device, "up", local, remote); // TODO: not portable!
+		ProcessBuilder pb = new ProcessBuilder(path, usb, serial, tcp, timeout, "up", local, remote); // TODO: not portable!
 
 
 		/*
@@ -91,12 +93,14 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	}
 	public boolean command(String command, String...args)
 	{
-		String cmdline[] = new String[args.length + 4];
+		String cmdline[] = new String[args.length + 6];
 		cmdline[0] = path;
-		cmdline[1] = connectionType;
-		cmdline[2] = device;
-		cmdline[3] = command;
-		System.arraycopy(args, 0, cmdline, 4, args.length);
+		cmdline[1] = usb;
+		cmdline[2] = serial;
+		cmdline[3] = tcp;
+		cmdline[4] = timeout;
+		cmdline[5] = command;
+		System.arraycopy(args, 0, cmdline, 6, args.length);
 		ProcessBuilder pb = new ProcessBuilder(cmdline); // TODO: not portable!
 
 
@@ -126,7 +130,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 		return ev3duder.getStatus() == 0;
 	}
 	public boolean startFile(String remote) {
-		ProcessBuilder pb = new ProcessBuilder(path, connectionType, device, "run", remote); // TODO: not portable!
+		ProcessBuilder pb = new ProcessBuilder(path, usb, serial, tcp, timeout, "run", remote); // TODO: not portable!
 
 		ProcessBuilderWrapper ev3duder;
 		try {

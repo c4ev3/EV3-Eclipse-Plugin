@@ -43,6 +43,7 @@
                path="ev3menu/ev3group3"
                label="Connection settings">
             <separator name="ev3group"> </separator>
+            <separator name="ev3group2"> </separator>
          	</menu>
          <action
                class="de.hab.ev3plugin.actions.UploadOnEV3"
@@ -74,6 +75,15 @@
                tooltip="Kill any processes spawned by the EV3's VM">
          </action>
          
+               <!--icon="icons/Icon_pc_bluetooth.gif"-->
+         <action
+               class="de.hab.ev3plugin.actions.SetupCOMPort"
+               id="de.hab.ev3plugin.action"
+               label="Set Bluetooth COM Port"
+               menubarPath="ev3menu/connsettings/ev3group"
+               style="push"
+               tooltip="Set serial port name for communicating over Bluetooth">
+         </action>
          <action
                class="de.hab.ev3plugin.actions.SetupEV3WLanConnection"
                icon="icons/search.gif"
@@ -82,8 +92,15 @@
                menubarPath="ev3menu/connsettings/ev3group"
                style="toggle"
                tooltip="Pairs with EV3 via Serial or IP address">
-         </action>
-         
+         </action> 
+         <action
+               class="de.hab.ev3plugin.actions.ConnectionInfo"
+               id="de.hab.ev3plugin.action"
+               label="Connection Info"
+               menubarPath="ev3menu/connsettings/ev3group2"
+               style="push"
+               tooltip="Connection Info">
+         </action> 
          <!--<action
                class="de.hab.ev3plugin.actions.generateStarter"
                icon="icons/EV3_Icon.gif"

@@ -7,33 +7,33 @@ package de.hab.ev3plugin.actions;
 
 import java.util.regex.Pattern;
 
-import ilg.gnuarmeclipse.managedbuild.cross.ProjectStorage;
 import ilg.gnuarmeclipse.managedbuild.cross.SharedStorage;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.PlatformUI;
 
 import de.hab.ev3plugin.Ev3Duder;
-import de.hab.ev3plugin.choose.ChooseEv3;
-import de.hab.ev3plugin.choose.ChooseEv3.Handler;
+import de.hab.ev3plugin.gui.ChooseWLanEv3;
+import de.hab.ev3plugin.gui.ChooseWLanEv3.Handler;
 
 
 public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
-    public static final Pattern SERIAL_PAT = Pattern.compile("^\\d+$");
+    public static final Pattern SERIAL_PAT = Pattern.compile("^\\d{10}\\w{2}$");
 
 	private IWorkbenchWindow window;
 	private boolean toggle = false;
 	private Ev3Duder ev3;
 	static String device;
+	static String oldUsb;
+	static String oldSerial;
 
 	@Override
 	public void run(IAction action) {
 		   //Message for the future
+		toggleEv3DuderConnectionParams();
 		toggle = !toggle;
 		if (toggle == false)
 			return;
@@ -52,7 +52,7 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 		ev3 = new Ev3Duder(uploader_path, null);
 		ev3.setSilent(true);
 
-		ChooseEv3 dialog = new ChooseEv3(window.getShell());
+		ChooseWLanEv3 dialog = new ChooseWLanEv3(window.getShell());
 		dialog.setBlockOnOpen(true);
 		dialog.setHandler(new Handler() {
 			/**
@@ -66,9 +66,9 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 
 				if (SERIAL_PAT.matcher(id).matches())
 				{ 
-					if (ev3.command("--tcp", "-d", id, "info", "ip"))
+					if (ev3.command("--tcp="+ id, "info", "ip"))
 					{
-						device = ev3.getStdout();
+						device = ev3.getStdout().trim();
 						return true;
 					}
 				}
@@ -76,13 +76,13 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 				{
 					if (ev3.command("--tcp", "info", "ip"))
 					{
-						device = ev3.getStdout();
+						device = ev3.getStdout().trim();
 						return true;
 					}
 				}
 				else if (id.indexOf(".") != -1) // no need for elaborate pattern matching as the uploader itself does that
 				{
-					if (ev3.command("--tcp", "-d", id, "ls"))
+					if (ev3.command("--tcp=" + id, "nop"))
 					{
 						device = id;
 						return true;
@@ -92,7 +92,7 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 					MessageDialog.openError(window.getShell(), "Pairing error", "Supplied string neither a valid IP address or serial.");
 					return false;
 				}
-
+	
 				MessageDialog.openError(window.getShell(), "Pairing error", "No Ev3 with specified ID could be found.");
 				return false;
 			}
@@ -103,11 +103,33 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 						MessageDialog.openError(window.getShell(), "Connection error", "No connected Ev3 were found.");
 						return null;
 				}
-				return ev3.getStdout();
+				return ev3.getStdout().trim();
 			}
 		});
 		dialog.open();
-		if (! (device == null && device.isEmpty())) MessageDialog.openInformation(window.getShell(), "!!", device);
+		if (device != null && !device.isEmpty()) 
+		{
+			Ev3Duder.tcp = "--tcp=" + device;
+		}
+	}
+	static String usb = null, serial = null, tcp = null;
+	static private void toggleEv3DuderConnectionParams()
+	{
+		if (usb == null)
+		{
+			usb = Ev3Duder.usb;
+			serial = Ev3Duder.serial;
+			tcp = Ev3Duder.tcp;
+		
+			Ev3Duder.usb = Ev3Duder.serial = Ev3Duder.tcp = "--nop";
+		}else
+		{
+			Ev3Duder.usb = usb;
+			Ev3Duder.serial = serial;
+			Ev3Duder.tcp = tcp;
+			
+			usb = serial = tcp = null;
+		}
 	}
 
 	@Override
