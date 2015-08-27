@@ -20,6 +20,7 @@ public class ChooseWLanEv3 extends TitleAreaDialog {
 	public interface Handler {
 		boolean isValid(String id);
 		String fetchSerial();
+		void atCancel();
 	}
 	private static final int CONNECT_ID = IDialogConstants.CLIENT_ID + 1;
 			
@@ -88,8 +89,14 @@ public class ChooseWLanEv3 extends TitleAreaDialog {
 				}
 			}
 		});
-		createButton(dialog, IDialogConstants.CANCEL_ID,
+		Button button = createButton(dialog, IDialogConstants.CANCEL_ID,
 				IDialogConstants.CANCEL_LABEL, false);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				handler.atCancel();
+			}
+		});
 	}
 
 	/**

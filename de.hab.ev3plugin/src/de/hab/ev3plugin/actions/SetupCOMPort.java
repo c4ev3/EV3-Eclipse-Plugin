@@ -31,7 +31,6 @@ public class SetupCOMPort implements IWorkbenchWindowActionDelegate {
 			@Override
 			public void setValue(String _device) {
 				Ev3Duder.serial = "--serial=" + _device;
-				MessageDialog.openInformation(window.getShell(), "EYEAHEAUEHUAEH", Ev3Duder.serial);
 			}
 		});
 		dialog.open();

@@ -24,7 +24,7 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
     public static final Pattern SERIAL_PAT = Pattern.compile("^\\d{10}\\w{2}$");
 
 	private IWorkbenchWindow window;
-	private boolean toggle = false;
+	private boolean wlanMode = false;
 	private Ev3Duder ev3;
 	static String device;
 	static String oldUsb;
@@ -32,11 +32,18 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 
 	@Override
 	public void run(IAction action) {
-		   //Message for the future
 		toggleEv3DuderConnectionParams();
-		toggle = !toggle;
-		if (toggle == false)
+		wlanMode = !wlanMode;
+		/*
+		 * Ideally the checkmark should only be set in case a valid Ev3 could be detected.
+		 * and the wlanMode toggle here be removed and the other 2 wlanMode lines be uncommented.
+		 * (Ideally)
+		 */
+		if (!wlanMode)
+		{
+			//wlanMode = false;
 			return;
+		}
 
 		String m_selectedToolchainName = SharedStorage.getToolchainName();
 		String crossCommandUploader = SharedStorage
@@ -105,11 +112,17 @@ public class SetupEV3WLanConnection implements IWorkbenchWindowActionDelegate {
 				}
 				return ev3.getStdout().trim();
 			}
+
+			@Override
+			public void atCancel() {
+				//toggleEv3DuderConnectionParams();
+			}
 		});
 		dialog.open();
 		if (device != null && !device.isEmpty()) 
 		{
 			Ev3Duder.tcp = "--tcp=" + device;
+			//wlanMode = true;
 		}
 	}
 	static String usb = null, serial = null, tcp = null;

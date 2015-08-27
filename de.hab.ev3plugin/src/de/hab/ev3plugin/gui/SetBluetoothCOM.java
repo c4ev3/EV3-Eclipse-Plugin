@@ -1,6 +1,7 @@
 package de.hab.ev3plugin.gui;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -14,6 +15,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
 public class SetBluetoothCOM extends TitleAreaDialog {
+	private static final int SET_ID = IDialogConstants.CLIENT_ID + 1;
 	public interface Handler {
 		void setValue(String name);
 	}
@@ -59,9 +61,10 @@ public class SetBluetoothCOM extends TitleAreaDialog {
 	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite _parent) {
-		Button button = createButton(_parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
+		Button btnSet = createButton(_parent, SET_ID, IDialogConstants.OK_LABEL,
 				true);
-		button.addSelectionListener(new SelectionAdapter() {
+		btnSet.setText("Set");
+		btnSet.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				handler.setValue(txtCom.getText());
