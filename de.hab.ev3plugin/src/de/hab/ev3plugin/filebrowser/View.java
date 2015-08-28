@@ -40,6 +40,12 @@ import de.hab.ev3plugin.util.IO;
 public class View extends ViewPart {
 	public static final String ID = "de.hab.ev3plugin.filebrowser.view";
 	private TreeViewer viewer;
+	private static final String[] whiteList = {
+		"/media/card",
+		"/media/usb",
+		"/home/root/lms2012/BrkProg_SAVE",
+		"/home/root/lms2012/BrkProg_DL",
+		};
 
 	public void createPartControl(Composite parent) {
 		final Ev3Duder ev3;
@@ -95,8 +101,7 @@ public class View extends ViewPart {
 				}
 
 				if (viewer.getSelection() instanceof IStructuredSelection) {
-					IStructuredSelection selection = (IStructuredSelection) viewer
-							.getSelection();
+					IStructuredSelection selection = (IStructuredSelection) viewer .getSelection();
 					final Ev3File file = (Ev3File) selection.getFirstElement();
 					switch(Ev3File.getKind(file))
 					{
@@ -105,15 +110,20 @@ public class View extends ViewPart {
 					case DRIVE:
 						break;
 					case DIRECTORY:
-					manager.add(new Action("Upload") {
-						public void run() {
-							FileDialog fileDialog = new FileDialog(
-									shell, SWT.APPLICATION_MODAL);
-							String browsedFile = fileDialog.open();
-							if (browsedFile.isEmpty())
-								return;
-							ev3.command("up", browsedFile, file.getFullPath() + "/" + IO.getName(browsedFile));
-						} });
+					for (String allowed : whiteList)
+						if (file.getFullPath().startsWith(allowed))
+						{
+							manager.add(new Action("Upload") {
+								public void run() {
+									FileDialog fileDialog = new FileDialog(
+											shell, SWT.APPLICATION_MODAL);
+									String browsedFile = fileDialog.open();
+									if (browsedFile.isEmpty())
+										return;
+									ev3.command("up", browsedFile, file.getFullPath() + "/" + IO.getName(browsedFile));
+								} });
+							break;
+						}
 					break;
 					case FILE:
 					manager.add(new Action("Download") {

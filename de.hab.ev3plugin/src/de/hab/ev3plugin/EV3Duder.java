@@ -17,7 +17,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	static public String usb = "--usb=";
 	static public String serial = "--serial=";
 	static public String tcp = "--nop";
-	static final public String timeout = "-t=6";
+	static final public String timeout = "-t=0"; // let the ev3 decide (currently, 6s for UDP recv and 1s for tcp connect)
 
 	private Shell shell;
 	private boolean silent = false;
