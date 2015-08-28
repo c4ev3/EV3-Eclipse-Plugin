@@ -189,7 +189,7 @@ public class SetCrossCommandWizardPage extends MBSCustomPage {
 		m_uploaderTxt = new Text(m_composite, SWT.SINGLE | SWT.BORDER);
 		String crossCommandUploader = SharedStorage
 				.getToolchainUploader(m_selectedToolchainName);
-		if (crossCommandUploader == null)
+		if (crossCommandUploader.isEmpty())
 			m_uploaderTxt.setText("C:\\ev3\\uploader"); // Todo: check for non-windows
 		else	
 			m_uploaderTxt.setText(crossCommandUploader);

@@ -1,14 +1,10 @@
-.metadata/*
+.metadata/
 *.class
-*.swp
+*.sw*
 test/
-
 *.db
-
 *.swp
-
 *.jar
-
 *.html
-
 *.css
+.DS_Store
