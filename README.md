@@ -12,7 +12,7 @@ Assembler.jar is a LOGO interpreter, the associated LOGO files
 translate .lms source code into the VM's bytecode. Scripting
 the VM in availability of C, is probably unnecessary but the launcher
 file is still nonetheless provided and can be edited if one pleases.
-More info on LMS's C-like syntax is available *here*
+More info on LMS's C-like syntax is available [here](http://analyticphysics.com/Diversions/Assembly%20Language%20Programming%20for%20LEGO%20Mindstorms%20EV3.htm)
 
 ### Special defines
 Each start.lms file should contain the defines:
