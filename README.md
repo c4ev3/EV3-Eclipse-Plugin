@@ -1,7 +1,10 @@
-# EV3 Eclipse Plugin
+# EV3 Eclipse Plugin [![Gitter Chat](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/c4ev3/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+(Refer to [http://c4ev3.github.io](http://c4ev3.github.io) for a general introduction to c4ev3.)
+
 # Cross-compilation
 The Codesourcery linux-none-gnueabi toolchain is required. Others might
-work too but are not enabled by default. 
+work too but are not enabled by default.
 # Templates
 ## Starter file
 In order to make the ELF-Binaries available in the EV3's LCD Menu, a
@@ -33,7 +36,7 @@ project templates.
 
 # Acknowledgements
 This plugin has been originally written for use in the teaching of
-Informatics at the Hochschule Aschaffenburg. 
+Informatics at the Hochschule Aschaffenburg.
 In agreement with the university, it's hereby released under the
 terms of the Eclipse Public License.
 
