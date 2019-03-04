@@ -9,14 +9,9 @@
 
 int main(void)
 {
-	//TODO Place here your variables
-
-
-	//TODO Place here your code
-	InitEV3();
-	LcdPrintf(1, "Hello World!\n");
+	
+	TermPrintf("Hello World!\n");
 	Wait(SEC_2);
 
-	FreeEV3();
 	return 0;
 }
