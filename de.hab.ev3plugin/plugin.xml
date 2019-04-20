@@ -24,94 +24,6 @@
 	         id="de.hab.ev3plugin.filebrowser.View">
 	   </view>
 	</extension>
-	 <extension
-         id="action"
-         point="org.eclipse.ui.actionSets">
-      <actionSet
-            id="de.hab.ev3plugin.actionSet"
-            label="EV3"
-            visible="true">
-         <menu
-               id="ev3menu"
-               label="EV3">
-            <separator name="ev3group"> </separator>
-            <separator name="ev3group2"> </separator>
-            <separator name="ev3group3"> </separator>
-         </menu>
-            <menu
-               id="connsettings"
-               path="ev3menu/ev3group3"
-               label="Connection settings">
-            <separator name="ev3group"> </separator>
-            <separator name="ev3group2"> </separator>
-         	</menu>
-         <action
-               class="de.hab.ev3plugin.actions.UploadOnEV3"
-               icon="icons/EV3_Icon.gif"
-               id="de.hab.ev3plugin.action"
-               label="Upload"
-               menubarPath="ev3menu/ev3group"
-               style="push"
-               toolbarPath="ev3group"
-               tooltip="Upload to EV3 (and provide it in the menu)">
-         </action>
-         <action
-               class="de.hab.ev3plugin.actions.UploadAndRunOnEV3"
-               icon="icons/UploadAndRun.png"
-               id="de.hab.ev3plugin.action"
-               label="Upload and run"
-               menubarPath="ev3menu/ev3group"
-               style="push"
-               tooltip="Run after Making it available in the menu">
-         </action>
-        
-         <action
-               class="de.hab.ev3plugin.actions.KillChildrenOfVM"
-               icon="icons/KillAll2.gif"
-               id="de.hab.ev3plugin.action"
-               label="Kill running EV3 apps"
-               menubarPath="ev3menu/ev3group2"
-               style="push"
-               tooltip="Kill any processes spawned by the EV3's VM">
-         </action>
-         
-               <!--icon="icons/Icon_pc_bluetooth.gif"-->
-         <action
-               class="de.hab.ev3plugin.actions.SetupCOMPort"
-               id="de.hab.ev3plugin.action"
-               label="Set Bluetooth COM Port"
-               menubarPath="ev3menu/connsettings/ev3group"
-               style="push"
-               tooltip="Set serial port name for communicating over Bluetooth">
-         </action>
-         <action
-               class="de.hab.ev3plugin.actions.SetupEV3WLanConnection"
-               icon="icons/search.gif"
-               id="de.hab.ev3plugin.action"
-               label="EV3 WLan Connection"
-               menubarPath="ev3menu/connsettings/ev3group"
-               style="toggle"
-               tooltip="Pairs with EV3 via Serial or IP address">
-         </action> 
-         <action
-               class="de.hab.ev3plugin.actions.ConnectionInfo"
-               id="de.hab.ev3plugin.action"
-               label="Connection Info"
-               menubarPath="ev3menu/connsettings/ev3group2"
-               style="push"
-               tooltip="Connection Info">
-         </action> 
-         <!--<action
-               class="de.hab.ev3plugin.actions.generateStarter"
-               icon="icons/EV3_Icon.gif"
-               id="de.hab.ev3plugin.action"
-               label="Generate copy of starter file"
-               menubarPath="ev3menu/ev3group2"
-               style="push"
-               tooltip="Generate starter rbf file. Change Build options/install path if you want to use a custom rbf file">
-         </action>-->
- 	 </actionSet>
-         </extension>
    <extension
          point="org.eclipse.cdt.managedbuilder.core.buildDefinitions">
       <managedBuildRevision
@@ -4112,6 +4024,129 @@
             parent="org.eclipse.cdt.managedbuilder.ui.properties.Page_BuildSettings"
             weight="012">
       </tab>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.UploadRun"
+            id="de.hab.ev3plugin.commandUploadRun"
+            name="commandUploadRun">
+      </command>
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.Upload"
+            id="de.hab.ev3plugin.commandUpload"
+            name="commandUpload">
+      </command>
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.KillChildenOfVM"
+            id="de.hab.ev3plugin.commandKillRunningEV3Apps"
+            name="commandKillRunningEV3Apps">
+      </command>
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.CommandEV3Wlan"
+            id="de.hab.ev3plugin.commandEV3Wlan"
+            name="commandEV3Wlan">
+      </command>
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.SetBluetoothComPort"
+            id="de.hab.ev3plugin.commandSetBluetoothComPort"
+            name="commandSetBluetoothComPort">
+      </command>
+      <command
+            defaultHandler="de.hab.ev3plugin.commands.ConnectionInfo"
+            id="de.hab.ev3plugin.commandConnectionInfo"
+            name="commandConnectionInfo">
+      </command>
+   </extension>
+   
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               id="ev3-menu"
+               label="EV3">
+            <command
+                  commandId="de.hab.ev3plugin.commandUploadRun"
+                  icon="icons/UploadAndRun.png"
+                  label="Upload and run"
+                  style="push"
+                  tooltip="Run after Making it available in the menu">
+            </command>
+            <command
+                  commandId="de.hab.ev3plugin.commandUpload"
+                  icon="icons/EV3_Icon.gif"
+                  label="Upload"
+                  style="push"
+                  tooltip="Upload to EV3 (and provide it in the menu)">
+            </command>
+            <separator
+                  name="de.hab.ev3plugin.separator1"
+                  visible="true">
+            </separator>
+            <command
+                  commandId="de.hab.ev3plugin.commandKillRunningEV3Apps"
+                  icon="icons/KillAll2.gif"
+                  label="Kill running EV3 apps"
+                  style="push"
+                  tooltip="Kill any processes spawned by the EV3&apos;s VM">
+            </command>
+            <separator
+                  name="de.hab.ev3plugin.separator2"
+                  visible="true">
+            </separator>
+            <menu
+                  label="Connection settings">
+               <command
+                     commandId="de.hab.ev3plugin.commandEV3Wlan"
+                     icon="icons/search.gif"
+                     label="EV3 WLan Connection"
+                     style="push">
+               </command>
+               <command
+                     commandId="de.hab.ev3plugin.commandSetBluetoothComPort"
+                     icon="icons/bluetooth.gif"
+                     label="Set Bluetooth COM Port"
+                     style="push"
+                     tooltip="Set serial port name for communicating over Bluetooth">
+               </command>
+               <separator
+                     name="de.hab.ev3plugin.separator3"
+                     visible="true">
+               </separator>
+               <command
+                     commandId="de.hab.ev3plugin.commandConnectionInfo"
+                     icon="icons/info.gif"
+                     label="Connection Info"
+                     style="push"
+                     tooltip="Connection Info">
+               </command>
+            </menu>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            allPopups="true"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar">
+         <toolbar
+               id="de.hab.ev3plugin.toolbar1">
+            <command
+                  commandId="de.hab.ev3plugin.commandUpload"
+                  icon="icons/EV3_Icon.gif"
+                  label="Upload"
+                  style="push"
+                  tooltip="Upload to EV3 (and provide it in the menu)">
+            </command>
+            <command
+                  commandId="de.hab.ev3plugin.commandUploadRun"
+                  icon="icons/UploadAndRun.png"
+                  label="Upload and run"
+                  style="push"
+                  tooltip="Run after Making it available in the menu">
+            </command>
+         </toolbar>
+      </menuContribution>
    </extension>
            
 </plugin>
