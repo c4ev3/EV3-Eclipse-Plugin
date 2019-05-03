@@ -43,7 +43,7 @@ public class ChooseWLanEv3 extends TitleAreaDialog {
 	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
-		this.parent = parent.getParent().getParent(); // طلع سلسفيل أهله ;-)
+		this.parent = parent.getParent().getParent();
 		setTitle("Choose Ev3");
 		setMessage("Please enter either the serial number of the device or its IP address\nThe pairing process might take up to 6s, be patient.");
 		Composite area = (Composite) super.createDialogArea(parent);
@@ -51,11 +51,11 @@ public class ChooseWLanEv3 extends TitleAreaDialog {
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		txtNull = new Text(container, SWT.BORDER);
-		txtNull.setFont(SWTResourceManager.getFont(".Helvetica Neue DeskInterface", 20, SWT.NORMAL));
+		txtNull.setFont(SWTResourceManager.getFont(".Helvetica Neue DeskInterface", 15, SWT.NORMAL));
 		txtNull.setBounds(10, 10, 272, 29);
 		
 		Button btnNewButton = new Button(container, SWT.NONE);
-		btnNewButton.setFont(SWTResourceManager.getFont(".Helvetica Neue DeskInterface", 13, SWT.NORMAL));
+		btnNewButton.setFont(SWTResourceManager.getFont(".Helvetica Neue DeskInterface", 12, SWT.NORMAL));
 		btnNewButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
