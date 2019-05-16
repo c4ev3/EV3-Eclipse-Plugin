@@ -3997,6 +3997,12 @@
             location="$nl$/templates/projecttemplates/HelloWorld_EV3_C_Project/template.xml"
             projectType="org.eclipse.cdt.build.core.buildArtefactType.exe">
       </template>
+      <template
+            filterPattern=".*gcc"
+            id="ilg.gnuarmeclipse.managedbuild.cross.templates.HelloWorld_EV3_C_Project_Old"
+            location="$nl$/templates/projecttemplates/HelloWorld_EV3_C_Project_Old/template.xml"
+            projectType="org.eclipse.cdt.build.core.buildArtefactType.exe">
+      </template>
    </extension>
    <extension
          point="org.eclipse.cdt.core.LanguageSettingsProvider">
