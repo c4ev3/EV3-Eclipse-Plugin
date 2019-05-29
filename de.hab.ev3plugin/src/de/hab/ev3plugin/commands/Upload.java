@@ -2,6 +2,7 @@ package de.hab.ev3plugin.commands;
 
 import java.io.File;
 import java.util.Hashtable;
+import java.util.regex.Pattern;
 
 import org.eclipse.cdt.managedbuilder.core.IConfiguration;
 import org.eclipse.cdt.managedbuilder.core.IManagedBuildInfo;
@@ -63,6 +64,13 @@ public class Upload extends AbstractHandler {
 				MessageDialog.openInformation(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Lego EV3",
 						"Select the project you want to upload first.");
 				return null;
+			}
+			
+			if (!Pattern.matches("^[a-zA-Z0-9][a-zA-Z0-9_-]*$", proj.getName())) {
+				if (!MessageDialog.openQuestion(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), "Lego EV3 WARNING!",
+						"WARNING! The project name must only contain a-z, A-Z, 0-9, _ and must NOT contain spaces. If you use other characters, there might be unpredictable behavior and errors. Do you still want to continue?")) {
+					return null;
+				}
 			}
 			
 
