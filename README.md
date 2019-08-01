@@ -34,6 +34,32 @@ Curly braces have been chosen in order to differentiate from
 $(projectName) which is a valid identifier for the internal "ProjTempl"
 project templates.
 
+# Compiling the plugin
+## Preparing eclipse
+To compile the plugin yourself you need a version of eclipse with the "Eclipse Plugin Development Tools" installed.
+Since the plugin is targeted at Eclipse for C/C++ Developers, it would be best to just add the development tools to
+your existing eclipse cpp installation.
+
+To do this follow these steps:
+
+1. In eclipse go to `Help->Install new Software...`
+2. Select "The Eclipse Project Updates" from the dropdown menu
+3. Select "Eclipse Plugin Development Tools" and press next
+4. Follow the presented steps until eclipse restarts
+
+## Testing / Compiling the plugin
+Download / clone the git repository and import it into eclipse via `Import...->General->Existing Projects into Workspace`.
+
+To run the plugin rightclick on the project and use `Run As->Eclipse Application`.
+
+## Exporting the plugin as jar file
+To export the plugin rightclick on the project and use `Export...->Plug-in Development->Deployable plug-ins and fragments`.
+
+Select a the project and a destination directory. Eclipse will create a directory "plugins" and put the jar in there.
+
+# Adding the plugin to eclipse
+To add the plugin to eclipse, simply copy the exported jar file into the "dropins" directory in the eclipse installation folder.
+
 # Acknowledgements
 This plugin has been originally written for use in the teaching of
 Informatics at the Hochschule Aschaffenburg.
