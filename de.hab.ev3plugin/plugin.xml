@@ -784,6 +784,9 @@
                valueType="libs">
          </option>
          <option
+               command="-lm">
+         </option>
+         <option
                browseType="directory"
                command="-L"
                id="ilg.gnuarmeclipse.managedbuild.cross.option.base.linker.paths"
