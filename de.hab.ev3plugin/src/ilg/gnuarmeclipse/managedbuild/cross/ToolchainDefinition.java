@@ -208,5 +208,7 @@ public class ToolchainDefinition {
 		ms_list.add(new ToolchainDefinition("Linaro ARM Linux GNU EABI",
 				"arm-linux-gnueabi-"));
 
+		ms_list.add(new ToolchainDefinition("C4EV3.Toolchain for ARM Linux UCLIBC EABI",
+				"arm-c4ev3-linux-uclibceabi-"));
 	}
 }
