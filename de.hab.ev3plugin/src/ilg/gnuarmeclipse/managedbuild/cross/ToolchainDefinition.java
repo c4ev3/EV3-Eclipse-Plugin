@@ -197,17 +197,7 @@ public class ToolchainDefinition {
 	static {
 		ms_list = new ArrayList<ToolchainDefinition>();
 		ToolchainDefinition tc;
-	/*	// 0
-		ms_list.add(new ToolchainDefinition(
-				"GNU Tools for ARM Embedded Processors", "arm-none-eabi-"));
-		// 1
-		tc = new ToolchainDefinition("Sourcery CodeBench Lite for ARM EABI",
-				"arm-none-eabi-");
-		if (Utils.isPlatform("windows"))
-			tc.setWin("cs_make", "cs_rm");
-		ms_list.add(tc);
-	 	*/
-		// 2
+
 		tc = new ToolchainDefinition(
 				"Sourcery CodeBench Lite for ARM GNU/Linux",
 				"arm-none-linux-gnueabi-");
@@ -215,49 +205,8 @@ public class ToolchainDefinition {
 			tc.setWin("cs-make", "cs-rm");
 		ms_list.add(tc);
 
-/*
-		// 3
-		ms_list.add(new ToolchainDefinition("devkitPro ARM EABI", "arm-eabi-"));
-
-		// 4
-		ms_list.add(new ToolchainDefinition("Yagarto, Summon, etc. ARM EABI",
-				"arm-none-eabi-"));
-*/
-		// 5
 		ms_list.add(new ToolchainDefinition("Linaro ARM Linux GNU EABI",
 				"arm-linux-gnueabi-"));
-/*
-		ms_list.add(new ToolchainDefinition(
-				"Linaro ARMv7 Big-Endian Linux GNU EABI HF",
-				"armeb-linux-gnueabihf-"));
 
-		// 64 bit toolchains
-		// 7
-		ms_list.add(new ToolchainDefinition("Linaro AArch64 bare-metal ELF",
-				"aarch64-none-elf-", "aarch64"));
-
-		// 8
-		ms_list.add(new ToolchainDefinition(
-				"Linaro AArch64 big-endian bare-metal ELF",
-				"aarch64_be-none-elf-", "aarch64"));
-
-		// 9
-		ms_list.add(new ToolchainDefinition("Linaro AArch64 Linux GNU",
-				"aarch64-linux-gnu-", "aarch64"));
-
-		// 10
-		ms_list.add(new ToolchainDefinition(
-				"Linaro AArch64 big-endian Linux GNU", "aarch64_be-linux-gnu-",
-				"aarch64"));
-
-		// 11
-		ms_list.add(new ToolchainDefinition(
-				"Custom", "arm-none-eabi-"));
-
-		// 12
-		// tc = new ToolchainDefinition("test", "myPrefix");
-		// tc.setTest();
-		// ms_list.add(tc);
-*/
 	}
 }
