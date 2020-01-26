@@ -27,7 +27,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import de.hab.ev3plugin.Ev3Duder;
+import de.hab.ev3plugin.EV3Duder;
 import de.hab.ev3plugin.filebrowser.provider.FileContentProvider;
 import de.hab.ev3plugin.filebrowser.provider.FileLabelProvider;
 import de.hab.ev3plugin.filebrowser.Ev3File;
@@ -48,7 +48,7 @@ public class View extends ViewPart {
 		};
 
 	public void createPartControl(Composite parent) {
-		final Ev3Duder ev3;
+		final EV3Duder ev3;
 		String uploader_path;
 		final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 
@@ -67,7 +67,7 @@ public class View extends ViewPart {
 			uploader_path += "/ev3duder"; // let's hope it's in path
 
 		final String details = uploader_path;
-		ev3 = new Ev3Duder(uploader_path, null);
+		ev3 = new EV3Duder(uploader_path, null);
 
 		viewer = new TreeViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		viewer.setContentProvider(new FileContentProvider());

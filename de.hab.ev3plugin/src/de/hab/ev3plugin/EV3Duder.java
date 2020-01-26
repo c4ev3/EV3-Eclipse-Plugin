@@ -9,7 +9,8 @@ package de.hab.ev3plugin;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class Ev3Duder { // wrapper for the ev3dude CLI program
+
+public class EV3Duder { // wrapper for the ev3dude CLI program
 	private String stdout;
 	private String stderr;
 
@@ -27,7 +28,7 @@ public class Ev3Duder { // wrapper for the ev3dude CLI program
 	 * @param shell optional reference to a Shell object to use for GUI messages
 	 * @bug   I guess Shell might not be the best way to do that?
 	 */
-	public Ev3Duder(String path, Shell shell) { 
+	public EV3Duder(String path, Shell shell) { 
 		this.path = path;
 		this.shell = shell;
 	}

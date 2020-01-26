@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import de.hab.ev3plugin.Ev3Duder;
+import de.hab.ev3plugin.EV3Duder;
 import de.hab.ev3plugin.util.IO;
 
 public class Ev3File {
@@ -19,18 +19,18 @@ public class Ev3File {
 	public enum Kind { FILE, DIRECTORY, DRIVE, RESTRICTED, REFRESH };
 
 	private String path = null;
-	private Ev3Duder ev3;
+	private EV3Duder ev3;
 	private String hash = null;
 	private int size = -1;
 	private boolean restricted;
 
-	public Ev3File(Ev3Duder instance, String path) {
+	public Ev3File(EV3Duder instance, String path) {
 		// TODO Auto-generated constructor stub
 		this.path = path;
 		ev3 = instance; 
 		ev3.setSilent(true);
 	}
-	private Ev3File(Ev3Duder instance, String path, String hash, int size)
+	private Ev3File(EV3Duder instance, String path, String hash, int size)
 	{
 		this.ev3 = instance;
 		this.path = path;
@@ -46,7 +46,7 @@ public class Ev3File {
 		this.hash = clone.hash;
 		this.size = clone.size;
 	}
-	public static Ev3File[] listRoots(Ev3Duder instance) {
+	public static Ev3File[] listRoots(EV3Duder instance) {
 		// TODO Auto-generated method stub
 		Ev3File file = new Ev3File(instance, "");
 		return file.listFiles();
